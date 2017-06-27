@@ -1,0 +1,23 @@
+{
+    "name": "mytwitter",
+    "version": "1.0.0",
+    "description": "Small application similar to Twitter.",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nyweron/MyTwitter.git"
+    },
+    "keywords": [
+        "Twitter",
+        "Node.JS",
+        "ExpressJS",
+        "Angular",
+        "Heroku",
+        "MongoDB"
+    ],
+    "author": "Przemysław Juśkiewicz (Nyweron)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Nyweron/MyTwitter/issues"
+    },
+    "homepage": "https://github.com/Nyweron/MyTwitter#readme"
+}
