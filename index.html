@@ -7,25 +7,35 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
-<body>
+<body ng-app="app">
 
-    <div class="container">
+    <div ng-controller="PostsCtrl" class="container">
         <h1>Najnowsze posty</h1>
         <ul class="list-group">
-            <li class="list-group-item">
-                <strong>@nyweron</strong>
-                <span>test</span>
+            <li ng-repeat="post in posts" class="list-group-item">
+                <strong>@{{post.username}}</strong>
+                <span>{{post.body}}</span>
             </li>
-            <li class="list-group-item">
-                <strong>@nyweronCezar</strong>
-                <span>test cezara</span>
-            </li>
+
         </ul>
     </div>
 
-
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular-route.js'></script>
+
+    <script>
+        var app = angular.module('app', [])
+        app.controller('PostsCtrl', function($scope) {
+            $scope.posts = [{
+                username: 'nyweron',
+                body: 'test post ctrl'
+            }, {
+                username: 'nyweronCezar',
+                body: 'test cezar post ctrl'
+            }]
+        })
+    </script>
+
 </body>
 
 </html>
