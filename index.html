@@ -11,6 +11,8 @@
 
     <div ng-controller="PostsCtrl" class="container">
         <h1>Najnowsze posty</h1>
+        <input ng-model='postBody' class='form-control' />
+        <button ng-click="addPost()" class="btn btn-default">Dodaj post</button>
         <ul class="list-group">
             <li ng-repeat="post in posts" class="list-group-item">
                 <strong>@{{post.username}}</strong>
@@ -33,6 +35,16 @@
                 username: 'nyweronCezar',
                 body: 'test cezar post ctrl'
             }]
+            $scope.addPost = function() {
+                if ($scope.postBody) {
+                    $scope.posts.unshift({
+                        username: 'nyweron',
+                        body: $scope.postBody
+                    })
+                    $scope.postBody = null
+                }
+
+            }
         })
     </script>
 
