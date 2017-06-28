@@ -2,8 +2,11 @@ var express = require('express')
 var Post = require('./models/post')
 var app = express()
 
-app.get('/', function(req, res) {
-    res.send('Hello Nyweron test!')
+app.get('/api/posts', function(req, res, next) {
+    Post.find(function(err, posts) {
+        if (err) { return next(err) }
+        res.send(posts)
+    })
 })
 
 //use postman
