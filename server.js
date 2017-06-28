@@ -3,14 +3,17 @@ var Post = require('./models/post')
 var app = express()
 
 app.get('/posts', function(req, res, next) {
+    console.log("posts get")
     Post.find(function(err, posts) {
         if (err) { return next(err) }
         res.send(posts)
     })
+    console.log("posts get end")
 })
 
 //use postman
 app.post('/posts', function(req, res, next) {
+    console.log("posts post")
     console.log(req.headers.username)
     var post = new Post({
         username: req.headers.username,
@@ -22,6 +25,7 @@ app.post('/posts', function(req, res, next) {
         console.log("Post added")
         res.send(201)
     })
+    console.log("posts post end")
 })
 
 var port = process.env.PORT || 3002
