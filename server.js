@@ -2,7 +2,7 @@ var express = require('express')
 var Post = require('./models/post')
 var app = express()
 
-app.get('/api/posts', function(req, res, next) {
+app.get('/posts', function(req, res, next) {
     Post.find(function(err, posts) {
         if (err) { return next(err) }
         res.send(posts)
@@ -10,7 +10,7 @@ app.get('/api/posts', function(req, res, next) {
 })
 
 //use postman
-app.post('/api/posts', function(req, res, next) {
+app.post('/posts', function(req, res, next) {
     console.log(req.headers.username)
     var post = new Post({
         username: req.headers.username,
