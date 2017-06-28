@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var url = process.env.MONGODB_URI || 'mongodb://localhost/socialLocalhost'
+var url = process.env.MONGOLAB_URI || 'mongodb://localhost/socialLocalhost'
 
 // When successfully connected
 mongoose.connect(url, function() {

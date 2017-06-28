@@ -5,6 +5,7 @@ var app = express()
 app.get('/posts', function(req, res, next) {
     console.log("posts get")
     Post.find(function(err, posts) {
+        console.log("posts get in:" + posts)
         if (err) { return next(err) }
         res.send(posts)
     })
