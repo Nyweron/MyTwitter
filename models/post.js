@@ -4,4 +4,5 @@ var Post = db.model('Post', {
     body: { type: String, required: true },
     date: { type: Date, required: true, default: Date.now }
 })
+console.log("Sfdsfssd")
 module.exports = Post
