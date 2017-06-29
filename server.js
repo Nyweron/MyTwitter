@@ -1,6 +1,13 @@
 var express = require('express')
 var Post = require('./models/post')
+const path = require('path')
 var app = express()
+
+
+app.get('/', function(req, res) {
+    console.log()
+    res.sendFile(path.join(__dirname, '/', 'layouts/posts.html'))
+})
 
 app.get('/posts', function(req, res, next) {
     console.log("posts get")
