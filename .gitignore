@@ -390,7 +390,5 @@ __pycache__/
 # End of https://www.gitignore.io/api/node,angular,visualstudio,visualstudiocode
 
 
-assets
-assets/*
-node_modules
-node_modules/*
+
+/assets
