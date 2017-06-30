@@ -6,5 +6,4 @@ app.service('PostsSvc', ['$http', function($http) {
     this.create = function(post) {
         return $http.post('/posts', post)
     }
-    console.error("Problem")
 }])
