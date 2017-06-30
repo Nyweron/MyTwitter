@@ -391,4 +391,6 @@ __pycache__/
 
 
 assets
+assets/*
 node_modules
+node_modules/*
