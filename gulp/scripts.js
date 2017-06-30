@@ -5,7 +5,6 @@ var ngAnnotate = require('gulp-ng-annotate')
 var gutil = require('gulp-util')
 var sourcemaps = require('gulp-sourcemaps')
 
-
 gulp.task('js', function() {
     return gulp.src(['ng/module.js', 'ng/**/*.js'])
         .pipe(sourcemaps.init())
