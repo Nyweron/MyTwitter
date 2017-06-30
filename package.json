@@ -29,6 +29,7 @@
     "express": "^4.15.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
     "mongoose": "^4.10.8",
     "nodemon": "^1.11.0"
   }
