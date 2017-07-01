@@ -6,4 +6,8 @@ angular.module('app')
         $scope.$on('register', function(_, response) {
             $scope.registerResponse = response
         })
+
+        $scope.disableRegisterResponse = function() {
+            $scope.registerResponse = null
+        }
     })
