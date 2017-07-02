@@ -12,6 +12,7 @@ exports.connect = function(server) {
 
         ws.on('close', function() {
             _.remove(clients, ws)
+            console.log("clients remove:" + "  " + ws)
         })
         ws.send('Witaj')
     })
