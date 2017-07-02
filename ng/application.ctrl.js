@@ -1,5 +1,5 @@
 angular.module('app')
-    .controller('ApplicationCtrl', function($scope) {
+    .controller('ApplicationCtrl', function($scope, UserSvc) {
         $scope.$on('login', function(_, user) {
             $scope.currentUser = user
         })
@@ -9,5 +9,10 @@ angular.module('app')
 
         $scope.disableRegisterResponse = function() {
             $scope.registerResponse = null
+        }
+
+        $scope.logout = function() {
+            $scope.currentUser = null
+            UserSvc.logout()
         }
     })

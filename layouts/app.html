@@ -16,8 +16,17 @@
         <div class="container">
             <ul class="nav navbar-nav">
                 <li><a href="/#/">Posty</a></li>
-                <li><a href="/#/register">Rejestracja</a></li>
-                <li><a href="/#/login">Logowanie</a></li>
+                <li ng-if='currentUser'>
+                    <a ng-click='logout()' href="/#/login">Wyloguj</a>
+                </li>
+                <li ng-if='!currentUser'>
+                    <a href="/#/register">Rejestracja</a>
+                </li>
+                <li ng-if='!currentUser'>
+                    <a href="/#/login">zaloguj</a>
+                </li>
+
+
             </ul>
             <p ng-if='currentUser' class="navbar-text navbar-right">
                 Zalogowany jako {{currentUser.username}}
