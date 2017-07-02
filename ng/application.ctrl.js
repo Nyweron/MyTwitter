@@ -12,6 +12,7 @@ angular.module('app')
         }
 
         $scope.logout = function() {
+            console.log("logout")
             $scope.currentUser = null
             UserSvc.logout()
         }
