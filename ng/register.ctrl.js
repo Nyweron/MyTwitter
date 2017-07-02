@@ -1,16 +1,12 @@
 angular.module('app')
     .controller('RegisterCtrl', function($scope, UserSvc) {
-        $scope.formInfo = {}
         $scope.register = function(username, password) {
 
 
+
             $scope.nameRequired = ''
-            $scope.emailRequired = ''
             $scope.passwordRequired = ''
 
-            console.log("tetst")
-            console.log(username)
-            console.log(password)
             if (!username) {
                 $scope.nameRequired = 'Name Required';
             } else {
