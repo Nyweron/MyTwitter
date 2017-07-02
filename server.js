@@ -13,6 +13,7 @@ app.use('/users', require('./controllers/api/users'))
 
 
 var port = process.env.PORT || 3002
-app.listen(port, function() {
+var server = app.listen(port, function() {
     console.log('app listening on port', port)
 })
+require('./websockets').connect(server)
