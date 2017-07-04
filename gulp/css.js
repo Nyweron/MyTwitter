@@ -1,6 +1,12 @@
 var gulp = require('gulp')
 var stylus = require('gulp-stylus')
 var livereload = require('gulp-livereload')
+var clean = require('gulp-clean')
+
+gulp.task('clean-css', function() {
+    return gulp.src('assets/*.css', { read: false })
+        .pipe(clean());
+});
 
 gulp.task('css', function() {
     return gulp.src('css/**/*.styl')
@@ -9,6 +15,6 @@ gulp.task('css', function() {
         .pipe(livereload())
 })
 
-gulp.task('watch:css', ['css'], function() {
+gulp.task('watch:css', ['clean-css', 'css'], function() {
     gulp.watch('css/**/*.styl', ['css'])
 })

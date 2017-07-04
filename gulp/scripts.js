@@ -5,6 +5,13 @@ var ngAnnotate = require('gulp-ng-annotate')
 var gutil = require('gulp-util')
 var sourcemaps = require('gulp-sourcemaps')
 var livereload = require('gulp-livereload')
+var clean = require('gulp-clean')
+
+gulp.task('clean-js', function() {
+    return gulp.src('assets/*.js', { read: false })
+        .pipe(clean());
+});
+
 
 gulp.task('js', function() {
     return gulp.src(['ng/module.js', 'ng/**/*.js'])
@@ -18,6 +25,6 @@ gulp.task('js', function() {
         .pipe(livereload())
 })
 
-gulp.task('watch:js', ['js'], function() {
+gulp.task('watch:js', ['clean-js', 'js'], function() {
     gulp.watch('ng/**/*.js', ['js'])
 })
