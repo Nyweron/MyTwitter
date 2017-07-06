@@ -1,0 +1,14 @@
+/*App*/
+
+gulp dev
+
+
+/*TESTS*/
+
+mocha
+node_modules\.bin\protractor.cmd
+
+/*MongoDB*/
+
+mongod
+
