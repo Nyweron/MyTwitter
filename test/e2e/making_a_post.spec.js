@@ -1,3 +1,5 @@
+var db = require('../../db')
+
 describe('create post', function() {
     it('login and create new post', function() {
         browser.get('http://localhost:3001')
@@ -7,7 +9,8 @@ describe('create post', function() {
         element(by.css('nav .register')).click()
 
         //set and send form registration.
-        element(by.model('username')).sendKeys('a')
+        var randomNumber = Math.floor(Math.random() * 1000)
+        element(by.model('username')).sendKeys('a_' + randomNumber)
         element(by.model('password')).sendKeys('a')
         element(by.css('form .btn')).click()
 
@@ -15,7 +18,7 @@ describe('create post', function() {
         element(by.css('nav .login')).click()
 
         //set and send form login.
-        element(by.model('username')).sendKeys('a')
+        element(by.model('username')).sendKeys('a_' + randomNumber)
         element(by.model('password')).sendKeys('a')
         element(by.css('form .btn')).click()
 
@@ -27,5 +30,8 @@ describe('create post', function() {
 
         //user should see your mytweet like first
 
+    })
+    afterEach(function() {
+        // db.connection.db.dropDatabase()
     })
 })
