@@ -1,4 +1,7 @@
 var db = require('../../db')
+var chai = require('chai')
+chai.use(require('chai-as-promised'))
+var expect = chai.expect
 
 describe('create post', function() {
     it('login and create new post', function() {
@@ -26,9 +29,11 @@ describe('create post', function() {
         var post = 'my new post' + Math.random()
         element(by.model('postBody')).sendKeys(post)
         element(by.css('form .btn')).click()
+            //user should see your mytweet like first
+        expect(element.all(by.css('ul.list-group li')).first().getText()).to.eventually.contain(post)
 
 
-        //user should see your mytweet like first
+
 
     })
     afterEach(function() {
