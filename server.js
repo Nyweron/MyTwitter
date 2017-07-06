@@ -1,7 +1,9 @@
 var express = require('express')
 var app = express()
 var websockets = require('./websockets')
+var logger = require('morgan')
 
+app.use(logger('dev'))
 app.use(require('./controllers'))
 
 var port = process.env.PORT || 3002
