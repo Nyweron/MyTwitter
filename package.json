@@ -42,5 +42,8 @@
     "mongoose": "^4.10.8",
     "nodemon": "^1.11.0",
     "ws": "^3.0.0"
+  },
+  "devDependencies": {
+    "protractor": "^5.1.2"
   }
 }
