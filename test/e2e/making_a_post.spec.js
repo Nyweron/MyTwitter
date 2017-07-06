@@ -1,11 +1,31 @@
-describe('utworzenie postu', function() {
-    it('zalogowaniee i utworzenie nowego postu', function() {
+describe('create post', function() {
+    it('login and create new post', function() {
         browser.get('http://localhost:3001')
-            //go to home page.
-            //click login.
-            //write form and send.
-            //write new mytwitt 
+        element(by.css('.login')).click()
 
-        //user should see your mytweet 
+        //click register button
+        element(by.css('nav .register')).click()
+
+        //set and send form registration.
+        element(by.model('username')).sendKeys('a')
+        element(by.model('password')).sendKeys('a')
+        element(by.css('form .btn')).click()
+
+        //click login button
+        element(by.css('nav .login')).click()
+
+        //set and send form login.
+        element(by.model('username')).sendKeys('a')
+        element(by.model('password')).sendKeys('a')
+        element(by.css('form .btn')).click()
+
+        //put new myTwitt on web
+        var post = 'my new post' + Math.random()
+        element(by.model('postBody')).sendKeys(post)
+        element(by.css('form .btn')).click()
+
+
+        //user should see your mytweet like first
+
     })
 })
