@@ -44,6 +44,7 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
+    "mocha": "^3.4.2",
     "protractor": "^5.1.2"
   }
 }
