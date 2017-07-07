@@ -10,9 +10,11 @@ node_modules\.bin\protractor.cmd
 mocha --require blanket --reporter mochawesome
 
 /*MongoDB*/
-
 mongod
 
 
 /*Bower*/
 Bower install
+
+/*Karma*/
+ karma start --single-run
