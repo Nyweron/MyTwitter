@@ -13,3 +13,6 @@ mocha --require blanket --reporter mochawesome
 
 mongod
 
+
+/*Bower*/
+Bower install
