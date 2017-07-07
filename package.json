@@ -1,58 +1,58 @@
 {
-  "name": "mytwitter",
-  "version": "1.0.0",
-  "description": "Small application similar to Twitter.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Nyweron/MyTwitter.git"
-  },
-  "scripts": {
-    "start": "node server.js"
-  },
-  "keywords": [
-    "Twitter",
-    "Node.JS",
-    "ExpressJS",
-    "Angular",
-    "Heroku",
-    "MongoDB"
-  ],
-  "author": "Przemysław Juśkiewicz (Nyweron)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Nyweron/MyTwitter/issues"
-  },
-  "homepage": "https://github.com/Nyweron/MyTwitter#readme",
-  "dependencies": {
-    "bcrypt": "^1.0.2",
-    "body-parser": "^1.17.2",
-    "es6": "0.0.7",
-    "express": "^4.15.3",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-livereload": "^3.8.1",
-    "gulp-ng-annotate": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-stylus": "^2.6.0",
-    "gulp-uglify": "^3.0.0",
-    "gulp-util": "^3.0.8",
-    "jwt-simple": "^0.5.1",
-    "lodash": "^4.17.4",
-    "mongoose": "^4.10.8",
-    "morgan": "^1.8.2",
-    "nodemon": "^1.11.0",
-    "ws": "^3.0.0"
-  },
-  "devDependencies": {
-    "blanket": "^1.2.3",
-    "chai": "^4.0.2",
-    "chai-as-promised": "^7.1.1",
-    "html-file-cov": "^1.0.0",
-    "jsonwebtoken": "^7.4.1",
-    "mocha": "^3.4.2",
-    "mochawesome": "^2.3.0",
-    "protractor": "^5.1.2",
-    "supertest": "^3.0.0"
-  }
+    "name": "mytwitter",
+    "version": "1.0.0",
+    "description": "Small application similar to Twitter.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Nyweron/MyTwitter.git"
+    },
+    "scripts": {
+        "test": "mocha && protractor && mocha --require blanket --reporter mochawesome --overwrite"
+    },
+    "keywords": [
+        "Twitter",
+        "Node.JS",
+        "ExpressJS",
+        "Angular",
+        "Heroku",
+        "MongoDB"
+    ],
+    "author": "Przemysław Juśkiewicz (Nyweron)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Nyweron/MyTwitter/issues"
+    },
+    "homepage": "https://github.com/Nyweron/MyTwitter#readme",
+    "dependencies": {
+        "bcrypt": "^1.0.2",
+        "body-parser": "^1.17.2",
+        "es6": "0.0.7",
+        "express": "^4.15.3",
+        "gulp": "^3.9.1",
+        "gulp-clean": "^0.3.2",
+        "gulp-concat": "^2.6.1",
+        "gulp-livereload": "^3.8.1",
+        "gulp-ng-annotate": "^2.0.0",
+        "gulp-sourcemaps": "^2.6.0",
+        "gulp-stylus": "^2.6.0",
+        "gulp-uglify": "^3.0.0",
+        "gulp-util": "^3.0.8",
+        "jwt-simple": "^0.5.1",
+        "lodash": "^4.17.4",
+        "mongoose": "^4.10.8",
+        "morgan": "^1.8.2",
+        "nodemon": "^1.11.0",
+        "ws": "^3.0.0"
+    },
+    "devDependencies": {
+        "blanket": "^1.2.3",
+        "chai": "^4.0.2",
+        "chai-as-promised": "^7.1.1",
+        "html-file-cov": "^1.0.0",
+        "jsonwebtoken": "^7.4.1",
+        "mocha": "^3.4.2",
+        "mochawesome": "^2.3.0",
+        "protractor": "^5.1.2",
+        "supertest": "^3.0.0"
+    }
 }
