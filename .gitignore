@@ -391,4 +391,8 @@ __pycache__/
 
 
 
-/assets
+# assets folder is not required, all is in gulpfile
+assets/
+
+# mochawesome folder is not required
+mochawesome-report/
