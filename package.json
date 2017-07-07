@@ -1,5 +1,4 @@
 {
-    "name": "mytwitter",
     "version": "1.0.0",
     "description": "Small application similar to Twitter.",
     "repository": {
@@ -50,6 +49,10 @@
         "chai-as-promised": "^7.1.1",
         "html-file-cov": "^1.0.0",
         "jsonwebtoken": "^7.4.1",
+        "karma": "^1.7.0",
+        "karma-chai": "^0.1.0",
+        "karma-mocha": "^1.3.0",
+        "karma-phantomjs-launcher": "^1.0.4",
         "mocha": "^3.4.2",
         "mochawesome": "^2.3.0",
         "protractor": "^5.1.2",
