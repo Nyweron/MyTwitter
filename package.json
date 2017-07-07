@@ -48,8 +48,10 @@
     "blanket": "^1.2.3",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.1.1",
+    "html-file-cov": "^1.0.0",
     "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
+    "mochawesome": "^2.3.0",
     "protractor": "^5.1.2",
     "supertest": "^3.0.0"
   }
