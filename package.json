@@ -8,8 +8,8 @@
     },
     "scripts": {
         "test": "mocha && protractor && mocha --require blanket --reporter mochawesome --overwrite && karma start --single-run",
-        "start": "node ",
-        "postinstall": "bower install && gulp build"
+        "start": "node server.js",
+        "postinstall": "gulp build"
     },
     "keywords": [
         "Twitter",
