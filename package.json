@@ -9,7 +9,7 @@
     "scripts": {
         "test": "mocha && protractor && mocha --require blanket --reporter mochawesome --overwrite && karma start --single-run",
         "start": "node server.js",
-        "postinstall": "gulp build"
+        "postinstall": "npm install gulp && gulp build"
     },
     "keywords": [
         "Twitter",
