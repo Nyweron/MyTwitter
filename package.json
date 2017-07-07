@@ -45,6 +45,7 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
+    "blanket": "^1.2.3",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.1.1",
     "jsonwebtoken": "^7.4.1",
