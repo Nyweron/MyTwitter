@@ -7,7 +7,9 @@
         "url": "https://github.com/Nyweron/MyTwitter.git"
     },
     "scripts": {
-        "test": "mocha && protractor && mocha --require blanket --reporter mochawesome --overwrite"
+        "test": "mocha && protractor && mocha --require blanket --reporter mochawesome --overwrite",
+        "start": "node ",
+        "postinstall": "gulp build"
     },
     "keywords": [
         "Twitter",
