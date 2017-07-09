@@ -28,6 +28,5 @@ angular.module('app')
                         $scope.password = ""
                     })
             } else {}
-
         }
     })

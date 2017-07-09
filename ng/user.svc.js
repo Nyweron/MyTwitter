@@ -1,5 +1,5 @@
 angular.module('app')
-    .service('UserSvc', function($http) {
+    .service('UserSvc', function($http, $window) {
         var svc = this
         svc.getUser = function() {
             return $http.get('/users')
@@ -13,6 +13,7 @@ angular.module('app')
                 password: password
             }).then(function(response) {
                 svc.token = response.data
+                svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data
                 return svc.getUser()
             })
@@ -25,8 +26,20 @@ angular.module('app')
                 return response
             })
         }
-
         svc.logout = function() {
+            $window.localStorage.clear()
             delete $http.defaults.headers.common['X-Auth']
+        }
+        svc.setToken = function(token) {
+            return $window.localStorage.token = token
+        }
+        svc.getToken = function() {
+            return $window.localStorage.token
+        }
+        svc.isSessionActive = function() {
+            return $window.localStorage.token ? true : false
+        }
+        svc.setXAuth = function() {
+            return $http.defaults.headers.common['X-Auth'] = svc.getToken()
         }
     })
