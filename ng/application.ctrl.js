@@ -6,19 +6,17 @@ angular.module('app')
         $scope.$on('register', function(_, response) {
             $scope.registerResponse = response
         })
-
         $scope.disableRegisterResponse = function() {
             $scope.registerResponse = null
         }
-
         $scope.logout = function() {
-            console.log("logout")
             $scope.currentUser = null
             UserSvc.logout()
             $location.path('/')
         }
 
         if (UserSvc.isSessionActive()) {
+            UserSvc.setXAuth()
             UserSvc.getUser().then(function(user) {
                 $scope.currentUser = user;
             })
