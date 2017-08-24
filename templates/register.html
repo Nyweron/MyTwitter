@@ -32,7 +32,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="nickname" placeholder="@NickName" class="form-control" type="text">
+                        <input id="nickname" name="nickname" placeholder="@NickName" class="form-control" type="text">
                     </div>
                 </div>
             </div>
@@ -44,14 +44,14 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input name="password" placeholder="Password" class="form-control" type="password">
+                        <input id="password" name="password" placeholder="Password" class="form-control" type="password">
                     </div>
                 </div>
             </div>
 
 
-            <!-- Text input-->
 
+            <!--
             <div class="form-group">
                 <label class="col-md-4 control-label">First Name</label>
                 <div class="col-md-4 inputGroupContainer">
@@ -62,7 +62,6 @@
                 </div>
             </div>
 
-            <!-- Text input-->
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Last Name</label>
@@ -74,7 +73,7 @@
                 </div>
             </div>
 
-            <!-- Text input-->
+          
             <div class="form-group">
                 <label class="col-md-4 control-label">E-Mail</label>
                 <div class="col-md-4 inputGroupContainer">
@@ -83,7 +82,7 @@
                         <input name="email" placeholder="E-Mail Address" class="form-control" type="text">
                     </div>
                 </div>
-            </div>
+            </div>-->
 
 
 
@@ -92,7 +91,7 @@
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
 
-                    <input class="btn btn-success btn-lg btn-block" type="submit" value="Rejestruj">
+                    <input class="btn btn-success btn-lg btn-block" id="submitRegistration" type="submit" value="Rejestruj">
 
                 </div>
             </div>
@@ -101,3 +100,9 @@
     </form>
 </div>
 </div>
+<script>
+    $('#submitRegistration').click(function() {
+        var nick = document.getElementById('nickname').value;
+        console.log('nick:', nick)
+    });
+</script>
