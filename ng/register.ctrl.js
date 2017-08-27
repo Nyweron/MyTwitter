@@ -9,11 +9,11 @@ angular.module('app')
             $scope.passwordRequired = ''
 
          
-            let name = ctrl.registerValidationUsername(username)
-            let pass = ctrl.registerValidationPassword(password)
+            ctrl.name = ctrl.registerValidationUsername(username)
+            ctrl.pass = ctrl.registerValidationPassword(password)
 
 
-            if (name && pass) {
+            if (ctrl.name && ctrl.pass) {
                 console.log("wszedl")
                 UserSvc.register(username, password)
                     .then(function(response) {
