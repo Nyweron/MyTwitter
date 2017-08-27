@@ -1,25 +1,30 @@
 angular.module('app') 
     .controller('RegisterCtrl', function($scope, UserSvc) {
         var ctrl = this
-        $scope.register = function(username, password) {
+        $scope.register = function(username, password, firstname) {
 
             console.log("tempp")
 
-            $scope.nameRequired = ''
+            $scope.usernameRequired = ''
             $scope.passwordRequired = ''
+            $scope.firstnameRequired = ''
+          
+     
 
          
             ctrl.name = ctrl.registerValidationUsername(username)
             ctrl.pass = ctrl.registerValidationPassword(password)
+            ctrl.first = ctrl.registerValidationFirstname(firstname)
 
 
             if (ctrl.name && ctrl.pass) {
                 console.log("wszedl")
-                UserSvc.register(username, password)
+                UserSvc.register(username, password, firstname)
                     .then(function(response) {
                         $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
                         $scope.username = ""
                         $scope.password = ""
+                        $scope.firstname = ""
                     })
             } else {}
 
@@ -29,14 +34,30 @@ angular.module('app')
         ctrl.registerValidationUsername = function(username) {
             if (username != undefined) {
                 if ( username.length < 3) {
-                    $scope.nameRequired = 'Name require 3 letters'
+                    $scope.usernameRequired = 'username require 3 letters'
                     return false
                 } else {
-                    $scope.nameRequired = ''
+                    $scope.usernameRequired = ''
                     return true
                 }    
             } else {
-                $scope.nameRequired = 'Name Required'
+                $scope.usernameRequired = 'username Required'
+                return false
+            }   
+        }
+
+
+        ctrl.registerValidationFirstname = function(firstname) {
+            if (firstname != undefined) {
+                if ( firstname.length < 3) {
+                    $scope.firstnameRequired = 'First name require 3 letters'
+                    return false
+                } else {
+                    $scope.firstnameRequired = ''
+                    return true
+                }    
+            } else {
+                $scope.firstnameRequired = 'First name Required'
                 return false
             }   
         }

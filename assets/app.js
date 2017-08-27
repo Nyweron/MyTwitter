@@ -1,2 +1,241 @@
-var app=angular.module("app",["ngRoute"]);angular.module("app").controller("ApplicationCtrl",["$scope","UserSvc","$location",function(e,t,n){e.$on("login",function(t,n){e.currentUser=n}),e.$on("register",function(t,n){e.registerResponse=n}),e.disableRegisterResponse=function(){e.registerResponse=null},e.logout=function(){e.currentUser=null,t.logout(),n.path("/")},t.isSessionActive()&&(t.setXAuth(),t.getUser().then(function(t){e.currentUser=t}))}]),angular.module("app").controller("LoginCtrl",["$scope","UserSvc","$location",function(e,t,n){e.login=function(o,r){t.login(o,r).then(function(t){e.$emit("login",t),n.path("/")})}}]),app.controller("PostsCtrl",["$scope","PostsSvc",function(e,t){e.addPost=function(){e.postBody&&t.create({username:"nyweron",body:e.postBody}).success(function(t){e.postBody=null})},e.$on("ws:new_post",function(t,n){e.$apply(function(){e.posts.unshift(n)})}),t.fetch().success(function(t){e.posts=t})}]),app.service("PostsSvc",["$http",function(e){this.fetch=function(){return e.get("/posts")},this.create=function(t){return e.post("/posts",t)}}]),angular.module("app").controller("RegisterCtrl",["$scope","UserSvc",function(e,t){var n=this;e.register=function(o,r){console.log("tempp"),e.nameRequired="",e.passwordRequired="",n.name=n.registerValidationUsername(o),n.pass=n.registerValidationPassword(r),n.name&&n.pass&&(console.log("wszedl"),t.register(o,r).then(function(t){e.$emit("register","Konto zarejestrowane poprawnie, zaloguj się."),e.username="",e.password=""}))},n.registerValidationUsername=function(t){return void 0!=t?t.length<3?(e.nameRequired="Name require 3 letters",!1):(e.nameRequired="",!0):(e.nameRequired="Name Required",!1)},n.registerValidationPassword=function(t){return void 0!=t?t.length<3?(e.passwordRequired="Password require 3 letters",!1):(e.passwordRequired="",!0):(e.passwordRequired="Password Required",!1)}}]),angular.module("app").config(["$routeProvider",function(e){e.when("/",{controller:"PostsCtrl",templateUrl:"posts.html"}).when("/register",{controller:"RegisterCtrl",templateUrl:"register.html"}).when("/login",{controller:"LoginCtrl",templateUrl:"login.html"}).when("/logout",{controller:"ApplicationCtrl",templateUrl:"posts.html"})}]),angular.module("app").service("UserSvc",["$http","$window",function(e,t){var n=this;n.getUser=function(){return e.get("/users").then(function(e){return e.data})},n.login=function(t,o){return e.post("/sessions",{username:t,password:o}).then(function(t){return n.token=t.data,n.setToken(n.token),e.defaults.headers.common["X-Auth"]=t.data,n.getUser()})},n.register=function(t,n){return e.post("/users",{username:t,password:n}).then(function(e){return e})},n.logout=function(){t.localStorage.clear(),delete e.defaults.headers.common["X-Auth"]},n.setToken=function(e){return t.localStorage.token=e},n.getToken=function(){return t.localStorage.token},n.isSessionActive=function(){return!!t.localStorage.token},n.setXAuth=function(){return e.defaults.headers.common["X-Auth"]=n.getToken()}}]),angular.module("app").service("WebSocketSvc",["$rootScope",function(e){function t(){return"https:"===window.location.protocol?"wss://"+window.location.host:"ws://"+window.location.host}var n;this.connect=function(){(n=new WebSocket(t())).onopen=function(){console.log("WebSocket connected")},n.onmessage=function(t){var n=JSON.parse(t.data);e.$broadcast("ws:"+n.topic,n.data)}},this.send=function(e,t){var o=JSON.stringify({topic:e,data:t});n.send(o)}}]).run(["WebSocketSvc",function(e){e.connect()}]);
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1vZHVsZS5qcyIsImFwcGxpY2F0aW9uLmN0cmwuanMiLCJsb2dpbi5jdHJsLmpzIiwicG9zdHMuY3RybC5qcyIsInBvc3RzLnN2Yy5qcyIsInJlZ2lzdGVyLmN0cmwuanMiLCJyb3V0ZXMuanMiLCJ1c2VyLnN2Yy5qcyIsIndlYnNvY2tldHMuc3ZjLmpzIl0sIm5hbWVzIjpbImFwcCIsImFuZ3VsYXIiLCJtb2R1bGUiLCJjb250cm9sbGVyIiwiJHNjb3BlIiwiVXNlclN2YyIsIiRsb2NhdGlvbiIsIiRvbiIsIl8iLCJ1c2VyIiwiY3VycmVudFVzZXIiLCJyZXNwb25zZSIsInJlZ2lzdGVyUmVzcG9uc2UiLCJkaXNhYmxlUmVnaXN0ZXJSZXNwb25zZSIsImxvZ291dCIsInBhdGgiLCJpc1Nlc3Npb25BY3RpdmUiLCJzZXRYQXV0aCIsImdldFVzZXIiLCJ0aGVuIiwibG9naW4iLCJ1c2VybmFtZSIsInBhc3N3b3JkIiwiJGVtaXQiLCJQb3N0c1N2YyIsImFkZFBvc3QiLCJwb3N0Qm9keSIsImNyZWF0ZSIsImJvZHkiLCJzdWNjZXNzIiwicG9zdCIsIiRhcHBseSIsInBvc3RzIiwidW5zaGlmdCIsImZldGNoIiwic2VydmljZSIsIiRodHRwIiwidGhpcyIsImdldCIsImN0cmwiLCJyZWdpc3RlciIsImNvbnNvbGUiLCJsb2ciLCJuYW1lUmVxdWlyZWQiLCJwYXNzd29yZFJlcXVpcmVkIiwibmFtZSIsInJlZ2lzdGVyVmFsaWRhdGlvblVzZXJuYW1lIiwicGFzcyIsInJlZ2lzdGVyVmFsaWRhdGlvblBhc3N3b3JkIiwidW5kZWZpbmVkIiwibGVuZ3RoIiwiY29uZmlnIiwiJHJvdXRlUHJvdmlkZXIiLCJ3aGVuIiwidGVtcGxhdGVVcmwiLCIkd2luZG93Iiwic3ZjIiwiZGF0YSIsInRva2VuIiwic2V0VG9rZW4iLCJkZWZhdWx0cyIsImhlYWRlcnMiLCJjb21tb24iLCJsb2NhbFN0b3JhZ2UiLCJjbGVhciIsImdldFRva2VuIiwiJHJvb3RTY29wZSIsIndlYnNvY2tldEhvc3QiLCJ3aW5kb3ciLCJsb2NhdGlvbiIsInByb3RvY29sIiwiaG9zdCIsImNvbm5lY3Rpb24iLCJjb25uZWN0IiwiV2ViU29ja2V0Iiwib25vcGVuIiwib25tZXNzYWdlIiwiZSIsInBheWxvYWQiLCJKU09OIiwicGFyc2UiLCIkYnJvYWRjYXN0IiwidG9waWMiLCJzZW5kIiwianNvbiIsInN0cmluZ2lmeSIsInJ1biIsIldlYlNvY2tldFN2YyJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBQUEsSUFBQUMsUUFBQUMsT0FBQSxPQUNBLFlDREFELFFBQUFDLE9BQUEsT0FDQUMsV0FBQSxtQkFBQSxTQUFBLFVBQUEsWUFBQSxTQUFBQyxFQUFBQyxFQUFBQyxHQUNBRixFQUFBRyxJQUFBLFFBQUEsU0FBQUMsRUFBQUMsR0FDQUwsRUFBQU0sWUFBQUQsSUFFQUwsRUFBQUcsSUFBQSxXQUFBLFNBQUFDLEVBQUFHLEdBQ0FQLEVBQUFRLGlCQUFBRCxJQUVBUCxFQUFBUyx3QkFBQSxXQUNBVCxFQUFBUSxpQkFBQSxNQUVBUixFQUFBVSxPQUFBLFdBQ0FWLEVBQUFNLFlBQUEsS0FDQUwsRUFBQVMsU0FDQVIsRUFBQVMsS0FBQSxNQUdBVixFQUFBVyxvQkFDQVgsRUFBQVksV0FDQVosRUFBQWEsVUFBQUMsS0FBQSxTQUFBVixHQUNBTCxFQUFBTSxZQUFBRCxRQ3BCQVIsUUFBQUMsT0FBQSxPQUNBQyxXQUFBLGFBQUEsU0FBQSxVQUFBLFlBQUEsU0FBQUMsRUFBQUMsRUFBQUMsR0FDQUYsRUFBQWdCLE1BQUEsU0FBQUMsRUFBQUMsR0FDQWpCLEVBQUFlLE1BQUFDLEVBQUFDLEdBQ0FILEtBQUEsU0FBQVYsR0FDQUwsRUFBQW1CLE1BQUEsUUFBQWQsR0FDQUgsRUFBQVMsS0FBQSxXQ05BZixJQUFBRyxXQUFBLGFBQUEsU0FBQSxXQUFBLFNBQUFDLEVBQUFvQixHQUNBcEIsRUFBQXFCLFFBQUEsV0FDQXJCLEVBQUFzQixVQUNBRixFQUFBRyxRQUNBTixTQUFBLFVBQ0FPLEtBQUF4QixFQUFBc0IsV0FDQUcsUUFB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QUVBRixFQUFBdkMsU0FBQSxXQUNBLE9BQUFtQixFQUFBd0IsU0FBQUMsUUFBQUMsT0FBQSxVQUFBTixFQUFBUyxlQzFDQWhFLFFBQUFDLE9BQUEsT0FDQWlDLFFBQUEsZ0JBQUEsYUFBQSxTQUFBK0IsR0FFQSxTQUFBQyxJQUNBLE1BQUEsV0FBQUMsT0FBQUMsU0FBQUMsU0FDQSxTQUFBRixPQUFBQyxTQUFBRSxLQUdBLFFBQUFILE9BQUFDLFNBQUFFLEtBS0EsSUFBQUMsRUFFQW5DLEtBQUFvQyxRQUFBLFlBQ0FELEVBQUEsSUFBQUUsVUFBQVAsTUFHQVEsT0FBQSxXQUNBbEMsUUFBQUMsSUFBQSx3QkFFQThCLEVBQUFJLFVBQUEsU0FBQUMsR0FDQSxJQUFBQyxFQUFBQyxLQUFBQyxNQUFBSCxFQUFBcEIsTUFDQVMsRUFBQWUsV0FBQSxNQUFBSCxFQUFBSSxNQUFBSixFQUFBckIsUUFJQXBCLEtBQUE4QyxLQUFBLFNBQUFELEVBQUF6QixHQUNBLElBQUEyQixFQUFBTCxLQUFBTSxXQUFBSCxNQUFBQSxFQUFBekIsS0FBQUEsSUFDQWUsRUFBQVcsS0FBQUMsT0FFQUUsS0FBQSxlQUFBLFNBQUFDLEdBQ0FBLEVBQUFkIiwiZmlsZSI6ImFwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBhcHAgPSBhbmd1bGFyLm1vZHVsZSgnYXBwJywgW1xyXG4gICAgJ25nUm91dGUnXHJcbl0pIiwiYW5ndWxhci5tb2R1bGUoJ2FwcCcpXHJcbiAgICAuY29udHJvbGxlcignQXBwbGljYXRpb25DdHJsJywgZnVuY3Rpb24oJHNjb3BlLCBVc2VyU3ZjLCAkbG9jYXRpb24pIHtcclxuICAgICAgICAkc2NvcGUuJG9uKCdsb2dpbicsIGZ1bmN0aW9uKF8sIHVzZXIpIHtcclxuICAgICAgICAgICAgJHNjb3BlLmN1cnJlbnRVc2VyID0gdXNlclxyXG4gICAgICAgIH0pXHJcbiAgICAgICAgJHNjb3BlLiRvbigncmVnaXN0ZXInLCBmdW5jdGlvbihfLCByZXNwb25zZSkge1xyXG4gICAgICAgICAgICAkc2NvcGUucmVnaXN0ZXJSZXNwb25zZSA9IHJlc3BvbnNlXHJcbiAgICAgICAgfSlcclxuICAgICAgICAkc2NvcGUuZGlzYWJsZVJlZ2lzdGVyUmVzcG9uc2UgPSBmdW5jdGlvbigpIHtcclxuICAgICAgICAgICAgJHNjb3BlLnJlZ2lzdGVyUmVzcG9uc2UgPSBudWxsXHJcbiAgICAgICAgfVxyXG4gICAgICAgICRzY29wZS5sb2dvdXQgPSBmdW5jdGlvbigpIHtcclxuICAgICAgICAgICAgJHNjb3BlLmN1cnJlbnRVc2VyID0gbnVsbFxyXG4gICAgICAgICAgICBVc2VyU3ZjLmxvZ291dCgpXHJcbiAgICAgICAgICAgICRsb2NhdGlvbi5wYXRoKCcvJylcclxuICAgICAgICB9XHJcblxyXG4gICAgICAgIGlmIChVc2VyU3ZjLmlzU2Vzc2lvbkFjdGl2ZSgpKSB7XHJcbiAgICAgICAgICAgIFVzZXJTdmMuc2V0WEF1dGgoKVxyXG4gICAgICAgICAgICBVc2VyU3ZjLmdldFVzZXIoKS50aGVuKGZ1bmN0aW9uKHVzZXIpIHtcclxuICAgICAgICAgICAgICAgICRzY29wZS5jdXJyZW50VXNlciA9IHVzZXI7XHJcbiAgICAgICAgICAgIH0pXHJcbiAgICAgICAgfVxyXG5cclxuICAgIH0pIiwiYW5ndWxhci5tb2R1bGUoJ2FwcCcpXHJcbiAgICAuY29udHJvbGxlcignTG9naW5DdHJsJywgZnVuY3Rpb24oJHNjb3BlLCBVc2VyU3ZjLCAkbG9jYXRpb24pIHtcclxuICAgICAgICAkc2NvcGUubG9naW4gPSBmdW5jdGlvbih1c2VybmFtZSwgcGFzc3dvcmQpIHtcclxuICAgICAgICAgICAgVXNlclN2Yy5sb2dpbih1c2VybmFtZSwgcGFzc3dvcmQpXHJcbiAgICAgICAgICAgICAgICAudGhlbihmdW5jdGlvbih1c2VyKSB7XHJcbiAgICAgICAgICAgICAgICAgICAgJHNjb3BlLiRlbWl0KCdsb2dpbicsIHVzZXIpXHJcbiAgICAgICAgICAgICAgICAgICAgJGxvY2F0aW9uLnBhdGgoJy8nKVxyXG4gICAgICAgICAgICAgICAgfSlcclxuICAgICAgICB9XHJcbiAgICB9KSIsImFwcC5jb250cm9sbGVyKCdQb3N0c0N0cmwnLCBmdW5jdGlvbigkc2NvcGUsIFBvc3RzU3ZjKSB7XHJcbiAgICAkc2NvcGUuYWRkUG9zdCA9IGZ1bmN0aW9uKCkge1xyXG4gICAgICAgIGlmICgkc2NvcGUucG9zdEJvZHkpIHtcclxuICAgICAgICAgICAgUG9zdHNTdmMuY3JlYXRlKHtcclxuICAgICAgICAgICAgICAgIHVzZXJuYW1lOiAnbnl3ZXJvbicsXHJcbiAgICAgICAgICAgICAgICBib2R5OiAkc2NvcGUucG9zdEJvZHlcclxuICAgICAgICAgICAgfSkuc3VjY2VzcyhmdW5jdGlvbihwb3N0KSB7XHJcbiAgICAgICAgICAgICAgICAkc2NvcGUucG9zdEJvZHkgPSBudWxsXHJcbiAgICAgICAgICAgIH0pXHJcbiAgICAgICAgfVxyXG4gICAgfVxyXG5cclxuXHJcbiAgICAkc2NvcGUuJG9uKCd3czpuZXdfcG9zdCcsIGZ1bmN0aW9uKF8sIHBvc3QpIHtcclxuICAgICAgICAkc2NvcGUuJGFwcGx5KGZ1bmN0aW9uKCkge1xyXG4gICAgICAgICAgICAkc2NvcGUucG9zdHMudW5zaGlmdChwb3N0KVxyXG4gICAgICAgIH0pXHJcbiAgICB9KVxyXG5cclxuICAgIFBvc3RzU3ZjLmZldGNoKCkuc3VjY2VzcyhmdW5jdGlvbihwb3N0cykge1xyXG4gICAgICAgICRzY29wZS5wb3N0cyA9IHBvc3RzXHJcbiAgICB9KVxyXG5cclxufSkiLCJhcHAuc2VydmljZSgnUG9zdHNTdmMnLCBbJyRodHRwJywgZnVuY3Rpb24oJGh0dHApIHtcclxuICAgIHRoaXMuZmV0Y2ggPSBmdW5jdGlvbigpIHtcclxuICAgICAgICByZXR1cm4gJGh0dHAuZ2V0KCcvcG9zdHMnKVxyXG4gICAgfVxyXG4gICAgdGhpcy5jcmVhdGUgPSBmdW5jdGlvbihwb3N0KSB7XHJcbiAgICAgICAgcmV0dXJuICRodHRwLnBvc3QoJy9wb3N0cycsIHBvc3QpXHJcbiAgICB9XHJcbn1dKSIsImFuZ3VsYXIubW9kdWxlKCdhcHAnKSBcclxuICAgIC5jb250cm9sbGVyKCdSZWdpc3RlckN0cmwnLCBmdW5jdGlvbigkc2NvcGUsIFVzZXJTdmMpIHtcclxuICAgICAgICB2YXIgY3RybCA9IHRoaXNcclxuICAgICAgICAkc2NvcGUucmVnaXN0ZXIgPSBmdW5jdGlvbih1c2VybmFtZSwgcGFzc3dvcmQpIHtcclxuXHJcbiAgICAgICAgICAgIGNvbnNvbGUubG9nKFwidGVtcHBcIilcclxuXHJcbiAgICAgICAgICAgICRzY29wZS5uYW1lUmVxdWlyZWQgPSAnJ1xyXG4gICAgICAgICAgICAkc2NvcGUucGFzc3dvcmRSZXF1aXJlZCA9ICcnXHJcblxyXG4gICAgICAgICBcclxuICAgICAgICAgICAgY3RybC5uYW1lID0gY3RybC5yZWdpc3RlclZhbGlkYXRpb25Vc2VybmFtZSh1c2VybmFtZSlcclxuICAgICAgICAgICAgY3RybC5wYXNzID0gY3RybC5yZWdpc3RlclZhbGlkYXRpb25QYXNzd29yZChwYXNzd29yZClcclxuXHJcblxyXG4gICAgICAgICAgICBpZiAoY3RybC5uYW1lICYmIGN0cmwucGFzcykge1xyXG4gICAgICAgICAgICAgICAgY29uc29sZS5sb2coXCJ3c3plZGxcIilcclxuICAgICAgICAgICAgICAgIFVzZXJTdmMucmVnaXN0ZXIodXNlcm5hbWUsIHBhc3N3b3JkKVxyXG4gICAgICAgICAgICAgICAgICAgIC50aGVuKGZ1bmN0aW9uKHJlc3BvbnNlKSB7XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICRzY29wZS4kZW1pdCgncmVnaXN0ZXInLCBcIktvbnRvIHphcmVqZXN0cm93YW5lIHBvcHJhd25pZSwgemFsb2d1aiBzacSZLlwiKVxyXG4gICAgICAgICAgICAgICAgICAgICAgICAkc2NvcGUudXNlcm5hbWUgPSBcIlwiXHJcbiAgICAgICAgICAgICAgICAgICAgICAgICRzY29wZS5wYXNzd29yZCA9IFwiXCJcclxuICAgICAgICAgICAgICAgICAgICB9KVxyXG4gICAgICAgICAgICB9IGVsc2Uge31cclxuXHJcblxyXG4gICAgICAgIH1cclxuXHJcbiAgICAgICAgY3RybC5yZWdpc3RlclZhbGlkYXRpb25Vc2VybmFtZSA9IGZ1bmN0aW9uKHVzZXJuYW1lKSB7XHJcbiAgICAgICAgICAgIGlmICh1c2VybmFtZSAhPSB1bmRlZmluZWQpIHtcclxuICAgICAgICAgICAgICAgIGlmICggdXNlcm5hbWUubGVuZ3RoIDwgMykge1xyXG4gICAgICAgICAgICAgICAgICAgICRzY29wZS5uYW1lUmVxdWlyZWQgPSAnTmFtZSByZXF1aXJlIDMgbGV0dGVycydcclxuICAgICAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2VcclxuICAgICAgICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgICAgICAgICAgJHNjb3BlLm5hbWVSZXF1aXJlZCA9ICcnXHJcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHRydWVcclxuICAgICAgICAgICAgICAgIH0gICAgXHJcbiAgICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgICAgICAkc2NvcGUubmFtZVJlcXVpcmVkID0gJ05hbWUgUmVxdWlyZWQnXHJcbiAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2VcclxuICAgICAgICAgICAgfSAgIFxyXG4gICAgICAgIH1cclxuXHJcbiAgICAgICAgY3RybC5yZWdpc3RlclZhbGlkYXRpb25QYXNzd29yZCA9IGZ1bmN0aW9uKHBhc3N3b3JkKXtcclxuICAgICAgICAgICAgaWYgKHBhc3N3b3JkICE9IHVuZGVmaW5lZCkge1xyXG4gICAgICAgICAgICAgICAgaWYgKCBwYXNzd29yZC5sZW5ndGggPCAzKSB7XHJcbiAgICAgICAgICAgICAgICAgICAgJHNjb3BlLnBhc3N3b3JkUmVxdWlyZWQgPSAnUGFzc3dvcmQgcmVxdWlyZSAzIGxldHRlcnMnXHJcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNlXHJcbiAgICAgICAgICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICAgICAgICAgICRzY29wZS5wYXNzd29yZFJlcXVpcmVkID0gJydcclxuICAgICAgICAgICAgICAgICAgICByZXR1cm4gdHJ1ZVxyXG4gICAgICAgICAgICAgICAgfSAgICBcclxuICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgICRzY29wZS5wYXNzd29yZFJlcXVpcmVkID0gJ1Bhc3N3b3JkIFJlcXVpcmVkJ1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNlXHJcbiAgICAgICAgICAgIH0gICBcclxuICAgICAgICB9XHJcblxyXG5cclxuICAgIH0pXHJcblxyXG4iLCJhbmd1bGFyLm1vZHVsZSgnYXBwJylcclxuICAgIC5jb25maWcoZnVuY3Rpb24oJHJvdXRlUHJvdmlkZXIpIHtcclxuICAgICAgICAkcm91dGVQcm92aWRlclxyXG4gICAgICAgICAgICAud2hlbignLycsIHsgY29udHJvbGxlcjogJ1Bvc3RzQ3RybCcsIHRlbXBsYXRlVXJsOiAncG9zdHMuaHRtbCcgfSlcclxuICAgICAgICAgICAgLndoZW4oJy9yZWdpc3RlcicsIHsgY29udHJvbGxlcjogJ1JlZ2lzdGVyQ3RybCcsIHRlbXBsYXRlVXJsOiAncmVnaXN0ZXIuaHRtbCcgfSlcclxuICAgICAgICAgICAgLndoZW4oJy9sb2dpbicsIHsgY29udHJvbGxlcjogJ0xvZ2luQ3RybCcsIHRlbXBsYXRlVXJsOiAnbG9naW4uaHRtbCcgfSlcclxuICAgICAgICAgICAgLndoZW4oJy9sb2dvdXQnLCB7IGNvbnRyb2xsZXI6ICdBcHBsaWNhdGlvbkN0cmwnLCB0ZW1wbGF0ZVVybDogJ3Bvc3RzLmh0bWwnIH0pXHJcbiAgICB9KSIsImFuZ3VsYXIubW9kdWxlKCdhcHAnKVxyXG4gICAgLnNlcnZpY2UoJ1VzZXJTdmMnLCBmdW5jdGlvbigkaHR0cCwgJHdpbmRvdykge1xyXG4gICAgICAgIHZhciBzdmMgPSB0aGlzXHJcbiAgICAgICAgc3ZjLmdldFVzZXIgPSBmdW5jdGlvbigpIHtcclxuICAgICAgICAgICAgcmV0dXJuICRodHRwLmdldCgnL3VzZXJzJylcclxuICAgICAgICAgICAgICAgIC50aGVuKGZ1bmN0aW9uKHJlc3BvbnNlKSB7XHJcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJlc3BvbnNlLmRhdGFcclxuICAgICAgICAgICAgICAgIH0pXHJcbiAgICAgICAgfVxyXG4gICAgICAgIHN2Yy5sb2dpbiA9IGZ1bmN0aW9uKHVzZXJuYW1lLCBwYXNzd29yZCkge1xyXG4gICAgICAgICAgICByZXR1cm4gJGh0dHAucG9zdCgnL3Nlc3Npb25zJywge1xyXG4gICAgICAgICAgICAgICAgdXNlcm5hbWU6IHVzZXJuYW1lLFxyXG4gICAgICAgICAgICAgICAgcGFzc3dvcmQ6IHBhc3N3b3JkXHJcbiAgICAgICAgICAgIH0pLnRoZW4oZnVuY3Rpb24ocmVzcG9uc2UpIHtcclxuICAgICAgICAgICAgICAgIHN2Yy50b2tlbiA9IHJlc3BvbnNlLmRhdGFcclxuICAgICAgICAgICAgICAgIHN2Yy5zZXRUb2tlbihzdmMudG9rZW4pXHJcbiAgICAgICAgICAgICAgICAkaHR0cC5kZWZhdWx0cy5oZWFkZXJzLmNvbW1vblsnWC1BdXRoJ10gPSByZXNwb25zZS5kYXRhXHJcbiAgICAgICAgICAgICAgICByZXR1cm4gc3ZjLmdldFVzZXIoKVxyXG4gICAgICAgICAgICB9KVxyXG4gICAgICAgIH1cclxuICAgICAgICBzdmMucmVnaXN0ZXIgPSBmdW5jdGlvbih1c2VybmFtZSwgcGFzc3dvcmQpIHtcclxuICAgICAgICAgICAgcmV0dXJuICRodHRwLnBvc3QoJy91c2VycycsIHtcclxuICAgICAgICAgICAgICAgIHVzZXJuYW1lOiB1c2VybmFtZSxcclxuICAgICAgICAgICAgICAgIHBhc3N3b3JkOiBwYXNzd29yZFxyXG4gICAgICAgICAgICB9KS50aGVuKGZ1bmN0aW9uKHJlc3BvbnNlKSB7XHJcbiAgICAgICAgICAgICAgICByZXR1cm4gcmVzcG9uc2VcclxuICAgICAgICAgICAgfSlcclxuICAgICAgICB9XHJcbiAgICAgICAgc3ZjLmxvZ291dCA9IGZ1bmN0aW9uKCkge1xyXG4gICAgICAgICAgICAkd2luZG93LmxvY2FsU3RvcmFnZS5jbGVhcigpXHJcbiAgICAgICAgICAgIGRlbGV0ZSAkaHR0cC5kZWZhdWx0cy5oZWFkZXJzLmNvbW1vblsnWC1BdXRoJ11cclxuICAgICAgICB9XHJcbiAgICAgICAgc3ZjLnNldFRva2VuID0gZnVuY3Rpb24odG9rZW4pIHtcclxuICAgICAgICAgICAgcmV0dXJuICR3aW5kb3cubG9jYWxTdG9yYWdlLnRva2VuID0gdG9rZW5cclxuICAgICAgICB9XHJcbiAgICAgICAgc3ZjLmdldFRva2VuID0gZnVuY3Rpb24oKSB7XHJcbiAgICAgICAgICAgIHJldHVybiAkd2luZG93LmxvY2FsU3RvcmFnZS50b2tlblxyXG4gICAgICAgIH1cclxuICAgICAgICBzdmMuaXNTZXNzaW9uQWN0aXZlID0gZnVuY3Rpb24oKSB7XHJcbiAgICAgICAgICAgIHJldHVybiAkd2luZG93LmxvY2FsU3RvcmFnZS50b2tlbiA/IHRydWUgOiBmYWxzZVxyXG4gICAgICAgIH1cclxuICAgICAgICBzdmMuc2V0WEF1dGggPSBmdW5jdGlvbigpIHtcclxuICAgICAgICAgICAgcmV0dXJuICRodHRwLmRlZmF1bHRzLmhlYWRlcnMuY29tbW9uWydYLUF1dGgnXSA9IHN2Yy5nZXRUb2tlbigpXHJcbiAgICAgICAgfVxyXG4gICAgfSkiLCJhbmd1bGFyLm1vZHVsZSgnYXBwJylcclxuICAgIC5zZXJ2aWNlKCdXZWJTb2NrZXRTdmMnLCBmdW5jdGlvbigkcm9vdFNjb3BlKSB7XHJcblxyXG4gICAgICAgIGZ1bmN0aW9uIHdlYnNvY2tldEhvc3QoKSB7XHJcbiAgICAgICAgICAgIGlmICh3aW5kb3cubG9jYXRpb24ucHJvdG9jb2wgPT09IFwiaHR0cHM6XCIpIHtcclxuICAgICAgICAgICAgICAgIHJldHVybiBcIndzczovL1wiICsgd2luZG93LmxvY2F0aW9uLmhvc3RcclxuXHJcbiAgICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgICAgICByZXR1cm4gXCJ3czovL1wiICsgd2luZG93LmxvY2F0aW9uLmhvc3RcclxuXHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9XHJcblxyXG4gICAgICAgIHZhciBjb25uZWN0aW9uXHJcblxyXG4gICAgICAgIHRoaXMuY29ubmVjdCA9IGZ1bmN0aW9uKCkge1xyXG4gICAgICAgICAgICBjb25uZWN0aW9uID0gbmV3IFdlYlNvY2tldCh3ZWJzb2NrZXRIb3N0KCkpXHJcblxyXG5cclxuICAgICAgICAgICAgY29ubmVjdGlvbi5vbm9wZW4gPSBmdW5jdGlvbigpIHtcclxuICAgICAgICAgICAgICAgIGNvbnNvbGUubG9nKCdXZWJTb2NrZXQgY29ubmVjdGVkJylcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICBjb25uZWN0aW9uLm9ubWVzc2FnZSA9IGZ1bmN0aW9uKGUpIHtcclxuICAgICAgICAgICAgICAgIHZhciBwYXlsb2FkID0gSlNPTi5wYXJzZShlLmRhdGEpXHJcbiAgICAgICAgICAgICAgICAkcm9vdFNjb3BlLiRicm9hZGNhc3QoJ3dzOicgKyBwYXlsb2FkLnRvcGljLCBwYXlsb2FkLmRhdGEpXHJcbiAgICAgICAgICAgIH1cclxuXHJcbiAgICAgICAgfVxyXG4gICAgICAgIHRoaXMuc2VuZCA9IGZ1bmN0aW9uKHRvcGljLCBkYXRhKSB7XHJcbiAgICAgICAgICAgIHZhciBqc29uID0gSlNPTi5zdHJpbmdpZnkoeyB0b3BpYzogdG9waWMsIGRhdGE6IGRhdGEgfSlcclxuICAgICAgICAgICAgY29ubmVjdGlvbi5zZW5kKGpzb24pXHJcbiAgICAgICAgfVxyXG4gICAgfSkucnVuKGZ1bmN0aW9uKFdlYlNvY2tldFN2Yykge1xyXG4gICAgICAgIFdlYlNvY2tldFN2Yy5jb25uZWN0KClcclxuICAgIH0pIl19
+var app = angular.module('app', [
+    'ngRoute'
+])
+angular.module('app')
+    .controller('ApplicationCtrl', function($scope, UserSvc, $location) {
+        $scope.$on('login', function(_, user) {
+            $scope.currentUser = user
+        })
+        $scope.$on('register', function(_, response) {
+            $scope.registerResponse = response
+        })
+        $scope.disableRegisterResponse = function() {
+            $scope.registerResponse = null
+        }
+        $scope.logout = function() {
+            $scope.currentUser = null
+            UserSvc.logout()
+            $location.path('/')
+        }
+
+        if (UserSvc.isSessionActive()) {
+            UserSvc.setXAuth()
+            UserSvc.getUser().then(function(user) {
+                $scope.currentUser = user;
+            })
+        }
+
+    })
+angular.module('app')
+    .controller('LoginCtrl', function($scope, UserSvc, $location) {
+        $scope.login = function(username, password) {
+            UserSvc.login(username, password)
+                .then(function(user) {
+                    $scope.$emit('login', user)
+                    $location.path('/')
+                })
+        }
+    })
+app.controller('PostsCtrl', function($scope, PostsSvc) {
+    $scope.addPost = function() {
+        if ($scope.postBody) {
+            PostsSvc.create({
+                username: 'nyweron',
+                body: $scope.postBody
+            }).success(function(post) {
+                $scope.postBody = null
+            })
+        }
+    }
+
+
+    $scope.$on('ws:new_post', function(_, post) {
+        $scope.$apply(function() {
+            $scope.posts.unshift(post)
+        })
+    })
+
+    PostsSvc.fetch().success(function(posts) {
+        $scope.posts = posts
+    })
+
+})
+app.service('PostsSvc', ['$http', function($http) {
+    this.fetch = function() {
+        return $http.get('/posts')
+    }
+    this.create = function(post) {
+        return $http.post('/posts', post)
+    }
+}])
+angular.module('app') 
+    .controller('RegisterCtrl', function($scope, UserSvc) {
+        var ctrl = this
+        $scope.register = function(username, password, firstname) {
+
+            console.log("tempp")
+
+            $scope.usernameRequired = ''
+            $scope.passwordRequired = ''
+            $scope.firstnameRequired = ''
+          
+     
+
+         
+            ctrl.name = ctrl.registerValidationUsername(username)
+            ctrl.pass = ctrl.registerValidationPassword(password)
+            ctrl.first = ctrl.registerValidationFirstname(firstname)
+
+
+            if (ctrl.name && ctrl.pass) {
+                console.log("wszedl")
+                UserSvc.register(username, password, firstname)
+                    .then(function(response) {
+                        $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
+                        $scope.username = ""
+                        $scope.password = ""
+                        $scope.firstname = ""
+                    })
+            } else {}
+
+
+        }
+
+        ctrl.registerValidationUsername = function(username) {
+            if (username != undefined) {
+                if ( username.length < 3) {
+                    $scope.usernameRequired = 'username require 3 letters'
+                    return false
+                } else {
+                    $scope.usernameRequired = ''
+                    return true
+                }    
+            } else {
+                $scope.usernameRequired = 'username Required'
+                return false
+            }   
+        }
+
+
+        ctrl.registerValidationFirstname = function(firstname) {
+            if (firstname != undefined) {
+                if ( firstname.length < 3) {
+                    $scope.firstnameRequired = 'First name require 3 letters'
+                    return false
+                } else {
+                    $scope.firstnameRequired = ''
+                    return true
+                }    
+            } else {
+                $scope.firstnameRequired = 'First name Required'
+                return false
+            }   
+        }
+
+        ctrl.registerValidationPassword = function(password){
+            if (password != undefined) {
+                if ( password.length < 3) {
+                    $scope.passwordRequired = 'Password require 3 letters'
+                    return false
+                } else {
+                    $scope.passwordRequired = ''
+                    return true
+                }    
+            } else {
+                $scope.passwordRequired = 'Password Required'
+                return false
+            }   
+        }
+
+
+    })
+
+
+angular.module('app')
+    .config(function($routeProvider) {
+        $routeProvider
+            .when('/', { controller: 'PostsCtrl', templateUrl: 'posts.html' })
+            .when('/register', { controller: 'RegisterCtrl', templateUrl: 'register.html' })
+            .when('/login', { controller: 'LoginCtrl', templateUrl: 'login.html' })
+            .when('/logout', { controller: 'ApplicationCtrl', templateUrl: 'posts.html' })
+    })
+angular.module('app')
+    .service('UserSvc', function($http, $window) {
+        var svc = this
+        svc.getUser = function() {
+            return $http.get('/users')
+                .then(function(response) {
+                    return response.data
+                })
+        }
+        svc.login = function(username, password) {
+            return $http.post('/sessions', {
+                username: username,
+                password: password
+            }).then(function(response) {
+                svc.token = response.data
+                svc.setToken(svc.token)
+                $http.defaults.headers.common['X-Auth'] = response.data
+                return svc.getUser()
+            })
+        }
+        svc.register = function(username, password) {
+            return $http.post('/users', {
+                username: username,
+                password: password
+            }).then(function(response) {
+                return response
+            })
+        }
+        svc.logout = function() {
+            $window.localStorage.clear()
+            delete $http.defaults.headers.common['X-Auth']
+        }
+        svc.setToken = function(token) {
+            return $window.localStorage.token = token
+        }
+        svc.getToken = function() {
+            return $window.localStorage.token
+        }
+        svc.isSessionActive = function() {
+            return $window.localStorage.token ? true : false
+        }
+        svc.setXAuth = function() {
+            return $http.defaults.headers.common['X-Auth'] = svc.getToken()
+        }
+    })
+angular.module('app')
+    .service('WebSocketSvc', function($rootScope) {
+
+        function websocketHost() {
+            if (window.location.protocol === "https:") {
+                return "wss://" + window.location.host
+
+            } else {
+                return "ws://" + window.location.host
+
+            }
+        }
+
+        var connection
+
+        this.connect = function() {
+            connection = new WebSocket(websocketHost())
+
+
+            connection.onopen = function() {
+                console.log('WebSocket connected')
+            }
+            connection.onmessage = function(e) {
+                var payload = JSON.parse(e.data)
+                $rootScope.$broadcast('ws:' + payload.topic, payload.data)
+            }
+
+        }
+        this.send = function(topic, data) {
+            var json = JSON.stringify({ topic: topic, data: data })
+            connection.send(json)
+        }
+    }).run(function(WebSocketSvc) {
+        WebSocketSvc.connect()
+    })

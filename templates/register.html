@@ -1,44 +1,19 @@
-<!--<form ng-submit="register(username, password)">
-    <div class="form-group">
-        <label>Nazwa użytkownika</label>
-        <input class="form-control" type="text" ng-model="username">
-        <span>{{nameRequired}}</span>
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input class="form-control" type="password" ng-model="password">
-        <span>{{passwordRequired}}</span>
-    </div>
-    <input class="btn btn-success btn-lg btn-block" type="submit" value="Rejestruj">
-</form>
-
-<div ng-if='registerResponse' class="alert alert-success">
-    <strong>Success!</strong> <a ng-click='disableRegisterResponse()' href=" /#/login " class="alert-link ">{{registerResponse}} </a>
-</div>-->
-
-
 <div class="container">
-    <form class="well form-horizontal" ng-submit="register(username, password)" action=" " method="post" id="contact_form">
+    <form class="well form-horizontal" ng-submit="register(username, password, firstname)" action=" " method="post" id="contact_form">
         <fieldset>
 
-            <!-- Form Name -->
             <legend>Registration</legend>
 
-
-            <!-- Text input-->
-
             <div class="form-group">
-                <label class="col-md-4 control-label">Username</label>
+                <label class="col-md-4 control-label">username</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input class="form-control" type="text" ng-model="username" placeholder="@NickName" id="username" name="username">
+                        <input class="form-control" type="text" ng-model="username" placeholder="@username" id="username" name="username">
                     </div>
-                    <b style="color:red;">{{nameRequired}}</b>
+                    <b style="color:red;">{{usernameRequired}}</b>
                 </div>
             </div>
-
-            <!-- Text input-->
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Password</label>
@@ -52,19 +27,18 @@
             </div>
 
 
-
-            <!--
             <div class="form-group">
                 <label class="col-md-4 control-label">First Name</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input name="first_name" placeholder="First Name" class="form-control" type="text">
+                        <input id="firstname" name="firstname" placeholder="First name" class="form-control" type="text" ng-model="firstname">
                     </div>
+                    <b style="color:red;">{{firstnameRequired}}</b>
                 </div>
             </div>
 
-
+            <!--
             <div class="form-group">
                 <label class="col-md-4 control-label">Last Name</label>
                 <div class="col-md-4 inputGroupContainer">
@@ -87,8 +61,6 @@
             </div>-->
 
 
-
-            <!-- Button -->
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
