@@ -18,7 +18,7 @@
 
 
 <div class="container">
-    <form class="well form-horizontal" action=" " method="post" id="contact_form">
+    <form class="well form-horizontal" ng-submit="register(username, password)" action=" " method="post" id="contact_form">
         <fieldset>
 
             <!-- Form Name -->
@@ -28,12 +28,13 @@
             <!-- Text input-->
 
             <div class="form-group">
-                <label class="col-md-4 control-label">@Nickname</label>
+                <label class="col-md-4 control-label">Username</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="nickname" name="nickname" placeholder="@NickName" class="form-control" type="text">
+                        <input class="form-control" type="text" ng-model="username" placeholder="@NickName" id="username" name="username">
                     </div>
+                    <b style="color:red;">{{nameRequired}}</b>
                 </div>
             </div>
 
@@ -44,8 +45,9 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input id="password" name="password" placeholder="Password" class="form-control" type="password">
+                        <input id="password" name="password" placeholder="Password" class="form-control" type="password" ng-model="password">
                     </div>
+                    <b style="color:red;">{{passwordRequired}}</b>
                 </div>
             </div>
 
@@ -99,10 +101,7 @@
         </fieldset>
     </form>
 </div>
+
+<div ng-if='registerResponse' class="alert alert-success">
+    <strong>Success!</strong> <a ng-click='disableRegisterResponse()' href=" /#/login " class="alert-link ">{{registerResponse}} </a>
 </div>
-<script>
-    $('#submitRegistration').click(function() {
-        var nick = document.getElementById('nickname').value;
-        console.log('nick:', nick)
-    });
-</script>
