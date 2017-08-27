@@ -27,22 +27,22 @@ angular.module('app')
         }
 
         ctrl.registerValidationUsername = function(username) {
-             if (username != undefined) {
+            if (username != undefined) {
                 if ( username.length < 3) {
                     $scope.nameRequired = 'Name require 3 letters'
-                        return false
+                    return false
                 } else {
                     $scope.nameRequired = ''
-                        return true
+                    return true
                 }    
             } else {
                 $scope.nameRequired = 'Name Required'
-                    return false
+                return false
             }   
         }
 
         ctrl.registerValidationPassword = function(password){
-             if (password != undefined) {
+            if (password != undefined) {
                 if ( password.length < 3) {
                     $scope.passwordRequired = 'Password require 3 letters'
                     return false
@@ -52,7 +52,7 @@ angular.module('app')
                 }    
             } else {
                 $scope.passwordRequired = 'Password Required'
-                 return false
+                return false
             }   
         }
 
