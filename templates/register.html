@@ -1,11 +1,22 @@
 <div class="container">
-    <form class="well form-horizontal" ng-submit="register(username, password, firstname)" action=" " method="post" id="contact_form">
+    <form class="well form-horizontal" ng-submit="register(email, username, password, firstname, lastname)" action=" " method="post" id="contact_form">
         <fieldset>
 
             <legend>Registration</legend>
 
             <div class="form-group">
-                <label class="col-md-4 control-label">username</label>
+                <label class="col-md-4 control-label">E-Mail</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input class="form-control" type="text" ng-model="email" placeholder="email" id="email" name="email">
+                    </div>
+                    <b style="color:red;">{{emailRequired}}</b>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Username</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -34,10 +45,18 @@
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="firstname" name="firstname" placeholder="First name" class="form-control" type="text" ng-model="firstname">
                     </div>
-                    <b style="color:red;">{{firstnameRequired}}</b>
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-4 control-label">Last Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="lastname" name="lastname" placeholder="Last name" class="form-control" type="text" ng-model="lastname">
+                    </div>
+                </div>
+            </div>
             <!--
             <div class="form-group">
                 <label class="col-md-4 control-label">Last Name</label>

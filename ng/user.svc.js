@@ -18,10 +18,13 @@ angular.module('app')
                 return svc.getUser()
             })
         }
-        svc.register = function(username, password) {
+        svc.register = function(email, username, password, firstname, lastname) {
             return $http.post('/users', {
+                email: email,
                 username: username,
-                password: password
+                password: password,
+                firstname: firstname,
+                lastname: lastname
             }).then(function(response) {
                 return response
             })

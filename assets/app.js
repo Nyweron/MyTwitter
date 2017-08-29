@@ -71,51 +71,63 @@ app.service('PostsSvc', ['$http', function($http) {
 angular.module('app') 
     .controller('RegisterCtrl', function($scope, UserSvc) {
         var ctrl = this
-        $scope.register = function(username, password, firstname) {
+        $scope.register = function(email, username, password, firstname, lastname) {
 
             console.log("tempp")
 
             $scope.usernameRequired = ''
             $scope.passwordRequired = ''
-            $scope.firstnameRequired = ''
-          
-     
-
-         
+            $scope.emailRequired = ''
+           
             ctrl.name = ctrl.registerValidationUsername(username)
             ctrl.pass = ctrl.registerValidationPassword(password)
-            ctrl.first = ctrl.registerValidationFirstname(firstname)
+            ctrl.email = ctrl.registerValidationEmail(email)
 
-
-            if (ctrl.name && ctrl.pass) {
+            if (ctrl.name && ctrl.pass && ctrl.email) {
                 console.log("wszedl")
-                UserSvc.register(username, password, firstname)
+                UserSvc.register(email, username, password, firstname, lastname)
                     .then(function(response) {
                         $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
+                        $scope.email = ""
                         $scope.username = ""
                         $scope.password = ""
                         $scope.firstname = ""
+                        $scope.lastname = ""
                     })
             } else {}
+        }
 
-
+        ctrl.registerValidationEmail = function(email) {
+            let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            
+            if (email != undefined) {
+                if(email.match(mailformat) != null){
+                    $scope.emailRequired = ''
+                    return true
+                } else {
+                    $scope.emailRequired = 'Invalid email format.'
+                    return false        
+                }
+            } else {
+                $scope.emailRequired = 'Email required'
+                return false
+            }   
         }
 
         ctrl.registerValidationUsername = function(username) {
             if (username != undefined) {
                 if ( username.length < 3) {
-                    $scope.usernameRequired = 'username require 3 letters'
+                    $scope.usernameRequired = 'Username require 3 letters'
                     return false
                 } else {
                     $scope.usernameRequired = ''
                     return true
                 }    
             } else {
-                $scope.usernameRequired = 'username Required'
+                $scope.usernameRequired = 'Username Required'
                 return false
             }   
         }
-
 
         ctrl.registerValidationFirstname = function(firstname) {
             if (firstname != undefined) {
@@ -179,10 +191,13 @@ angular.module('app')
                 return svc.getUser()
             })
         }
-        svc.register = function(username, password) {
+        svc.register = function(email, username, password, firstname, lastname) {
             return $http.post('/users', {
+                email: email,
                 username: username,
-                password: password
+                password: password,
+                firstname: firstname,
+                lastname: lastname
             }).then(function(response) {
                 return response
             })
