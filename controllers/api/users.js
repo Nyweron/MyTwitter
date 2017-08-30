@@ -40,9 +40,11 @@ router.post('/checkEmail', function(req, res, next) {
         if(user != null){
             //return true;
             console.log("true");
+            console.log(user);
             res.json(true)
         }else {
               console.log("false");
+              console.log(user);
               res.json(false)
         }
         
@@ -53,7 +55,7 @@ router.post('/checkEmail', function(req, res, next) {
 
 
 
-    
+
 })
 
 module.exports = router

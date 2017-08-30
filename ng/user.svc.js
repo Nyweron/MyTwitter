@@ -1,6 +1,6 @@
 angular.module('app')
     .service('UserSvc', function($http, $window) {
-        var svc = this
+        let svc = this
         
         svc.getUser = function() {
             console.log("UserSvc:getUser")
@@ -55,6 +55,8 @@ angular.module('app')
             console.log("XXX:")
             return $http.post('/users/checkEmail', {email:email})
                 .then(function(response) {
+                     console.log("XXX2:")
+                    console.log(response.data)
                     return response.data
                 }) 
         }
