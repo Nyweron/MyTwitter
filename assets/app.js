@@ -4,6 +4,7 @@ var app = angular.module('app', [
 angular.module('app')
     .controller('ApplicationCtrl', function($scope, UserSvc, $location) {
         $scope.$on('login', function(_, user) {
+            console.log("application.ctrl:",user)
             $scope.currentUser = user
         })
         $scope.$on('register', function(_, response) {
@@ -28,9 +29,10 @@ angular.module('app')
     })
 angular.module('app')
     .controller('LoginCtrl', function($scope, UserSvc, $location) {
-        $scope.login = function(username, password) {
-            UserSvc.login(username, password)
+        $scope.login = function(email, password) {
+            UserSvc.login(email, password)
                 .then(function(user) {
+                    console.log("login.ctrl:",user)
                     $scope.$emit('login', user)
                     $location.path('/')
                 })
@@ -38,16 +40,19 @@ angular.module('app')
     })
 app.controller('PostsCtrl', function($scope, PostsSvc) {
     $scope.addPost = function() {
+        console.log("ttt")
         if ($scope.postBody) {
+              console.log("ttt2")
             PostsSvc.create({
+              //  email: 'aaa@aa.aa',
                 username: 'nyweron',
                 body: $scope.postBody
             }).success(function(post) {
+                console.log("DFDF")
                 $scope.postBody = null
             })
         }
     }
-
 
     $scope.$on('ws:new_post', function(_, post) {
         $scope.$apply(function() {
@@ -84,7 +89,12 @@ angular.module('app')
             ctrl.email = ctrl.registerValidationEmail(email)
 
             if (ctrl.name && ctrl.pass && ctrl.email) {
-                console.log("wszedl")
+
+                console.log("wszedl0")
+                var x = UserSvc.emailIsExist(email);
+                console.log(x)
+                console.log("wszedl1")
+                
                 UserSvc.register(email, username, password, firstname, lastname)
                     .then(function(response) {
                         $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
@@ -105,7 +115,7 @@ angular.module('app')
                     $scope.emailRequired = ''
                     return true
                 } else {
-                    $scope.emailRequired = 'Invalid email format.'
+                    $scope.emailRequired = 'Invalid email format'
                     return false        
                 }
             } else {
@@ -159,10 +169,7 @@ angular.module('app')
             }   
         }
 
-
     })
-
-
 angular.module('app')
     .config(function($routeProvider) {
         $routeProvider
@@ -174,17 +181,22 @@ angular.module('app')
 angular.module('app')
     .service('UserSvc', function($http, $window) {
         var svc = this
+        
         svc.getUser = function() {
+            console.log("UserSvc:getUser")
             return $http.get('/users')
                 .then(function(response) {
+                     console.log("UserSvc:getUser:",response.data)
                     return response.data
                 })
         }
-        svc.login = function(username, password) {
+        svc.login = function(email, password) {
+             console.log("DDc", email)
             return $http.post('/sessions', {
-                username: username,
-                password: password
+                password: password,
+                email: email,
             }).then(function(response) {
+                console.log("DDc")
                 svc.token = response.data
                 svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data
@@ -197,7 +209,7 @@ angular.module('app')
                 username: username,
                 password: password,
                 firstname: firstname,
-                lastname: lastname
+                lastname: lastname,
             }).then(function(response) {
                 return response
             })
@@ -217,6 +229,14 @@ angular.module('app')
         }
         svc.setXAuth = function() {
             return $http.defaults.headers.common['X-Auth'] = svc.getToken()
+        }
+
+        svc.emailIsExist = function(email){
+            console.log("XXX:")
+            return $http.post('/users/checkEmail', {email:email})
+                .then(function(response) {
+                    return response.data
+                }) 
         }
     })
 angular.module('app')

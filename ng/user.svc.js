@@ -1,6 +1,7 @@
 angular.module('app')
     .service('UserSvc', function($http, $window) {
         var svc = this
+        
         svc.getUser = function() {
             console.log("UserSvc:getUser")
             return $http.get('/users')
@@ -48,5 +49,13 @@ angular.module('app')
         }
         svc.setXAuth = function() {
             return $http.defaults.headers.common['X-Auth'] = svc.getToken()
+        }
+
+        svc.emailIsExist = function(email){
+            console.log("XXX:")
+            return $http.post('/users/checkEmail', {email:email})
+                .then(function(response) {
+                    return response.data
+                }) 
         }
     })

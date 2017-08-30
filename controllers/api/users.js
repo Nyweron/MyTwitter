@@ -10,17 +10,14 @@ router.get('/', function(req, res, next) {
     }
 
     var auth = jwt.decode(req.headers['x-auth'], config.secret)
-     console.log("auth:",auth)
     User.findOne({ username: auth.username }, function(err, user) {
         if (err) { return next(err) }
 
-        console.log("user:",user)
         res.json(user)
     })
 })
 
 router.post('/', function(req, res, next) {
-    console.log("users.js req.body:"+req.body)
     var user = new User({ 
         username: req.body.username,
         firstname: req.body.firstname,
@@ -34,6 +31,29 @@ router.post('/', function(req, res, next) {
             res.send(201)
         })
     })
+})
+
+router.post('/checkEmail', function(req, res, next) {
+    User.findOne({ email: req.body.email }, function(err, user) {
+        if (err) { return next(err) }
+
+        if(user != null){
+            //return true;
+            console.log("true");
+            res.json(true)
+        }else {
+              console.log("false");
+              res.json(false)
+        }
+        
+       // console.log("user:",user)
+      //  res.json(user)
+    })
+
+
+
+
+    
 })
 
 module.exports = router

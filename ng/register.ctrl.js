@@ -14,7 +14,12 @@ angular.module('app')
             ctrl.email = ctrl.registerValidationEmail(email)
 
             if (ctrl.name && ctrl.pass && ctrl.email) {
-                console.log("wszedl")
+
+                console.log("wszedl0")
+                var x = UserSvc.emailIsExist(email);
+                console.log(x)
+                console.log("wszedl1")
+                
                 UserSvc.register(email, username, password, firstname, lastname)
                     .then(function(response) {
                         $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
