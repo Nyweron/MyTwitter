@@ -6,7 +6,6 @@ angular.module('app')
             console.log("UserSvc:getUser")
             return $http.get('/users')
                 .then(function(response) {
-                     console.log("UserSvc:getUser:",response.data)
                     return response.data
                 })
         }
@@ -52,11 +51,8 @@ angular.module('app')
         }
 
         svc.emailIsExist = function(email){
-            console.log("XXX:")
             return $http.post('/users/checkEmail', {email:email})
                 .then(function(response) {
-                     console.log("XXX2:")
-                    console.log(response.data)
                     return response.data
                 }) 
         }

@@ -87,18 +87,10 @@ angular.module('app')
             ctrl.email = ctrl.registerValidationEmail(email)
 
             if (ctrl.name && ctrl.pass && ctrl.email) {
-
                 UserSvc.emailIsExist(email).then(function(result) {
-                    console.log("result.x")
-                    console.log(result)
-
-                    console.log("typ:"+typeof(result))
-
                     if (result == "false") {
-                        console.log("wszedl1.2", result)
                         UserSvc.register(email, username, password, firstname, lastname)
                             .then(function(response) {
-                                console.log("wszedl2")
                                 $scope.$emit('register', "Konto zarejestrowane poprawnie, zaloguj się.")
                                 $scope.email = ""
                                 $scope.username = ""
@@ -106,16 +98,14 @@ angular.module('app')
                                 $scope.firstname = ""
                                 $scope.lastname = ""
                                 $scope.emailRequired = ''
+
                             })
                     } else {
-                        console.log("wszedl1.3", result)
+                        $scope.disableRegisterResponse()
                         $scope.emailRequired = 'This email exist in db'
                     }
                 })
-
-                console.log("wszedl1")
-
-            } else {}
+            }
         }
 
         ctrl.registerValidationEmail = function(email) {
@@ -197,7 +187,6 @@ angular.module('app')
             console.log("UserSvc:getUser")
             return $http.get('/users')
                 .then(function(response) {
-                     console.log("UserSvc:getUser:",response.data)
                     return response.data
                 })
         }
@@ -243,11 +232,8 @@ angular.module('app')
         }
 
         svc.emailIsExist = function(email){
-            console.log("XXX:")
             return $http.post('/users/checkEmail', {email:email})
                 .then(function(response) {
-                     console.log("XXX2:")
-                    console.log(response.data)
                     return response.data
                 }) 
         }

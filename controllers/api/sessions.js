@@ -9,7 +9,6 @@ router.post('/', function(req, res, next) {
     User.findOne({ email: req.body.email })
         .select('password')
         .select('username')
-     //   .select('email')
         .select('_id')
         .exec(function(err, user) {
             if (err) { return next(err) }
@@ -18,7 +17,6 @@ router.post('/', function(req, res, next) {
                 if (err) { return next(err) }
                 if (!valid) { return res.send(401) }
 
-                console.log("session.js user:",user)
                 var token = jwt.encode({ id: user._id, username: user.username }, config.secret)
                 res.send(token)
             })

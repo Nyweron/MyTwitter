@@ -33,28 +33,18 @@ router.post('/', function(req, res, next) {
     })
 })
 
+
+//TODO think how change post to get
 router.post('/checkEmail', function(req, res, next) {
     User.findOne({ email: req.body.email }, function(err, user) {
         if (err) { return next(err) }
 
         if(user != null){
-            //return true;
-            console.log("true");
-            console.log(user);
             res.json(true)
         }else {
-              console.log("false");
-              console.log(user);
               res.json(false)
         }
-        
-       // console.log("user:",user)
-      //  res.json(user)
     })
-
-
-
-
 
 })
 
