@@ -35,7 +35,7 @@ angular.module('app')
                     $scope.emailRequired = ''
                     return true
                 } else {
-                    $scope.emailRequired = 'Invalid email format.'
+                    $scope.emailRequired = 'Invalid email format'
                     return false        
                 }
             } else {
@@ -89,6 +89,4 @@ angular.module('app')
             }   
         }
 
-
     })
-

@@ -1,6 +1,7 @@
 var db = require('../db')
 var user = db.Schema({
-    email: { type: String, require: true },
+   // _id: { type: String, require: false },
+    email: { type: String, require: false },
     username: { type: String, require: true },
     password: { type: String, require: true, select: false },
     firstname: { type: String, require: false },

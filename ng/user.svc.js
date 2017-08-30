@@ -2,16 +2,21 @@ angular.module('app')
     .service('UserSvc', function($http, $window) {
         var svc = this
         svc.getUser = function() {
+            console.log("UserSvc:getUser")
             return $http.get('/users')
                 .then(function(response) {
                     return response.data
                 })
         }
-        svc.login = function(username, password) {
+        svc.login = function(email, username, password) {
+             console.log("DDc", email)
+             console.log("DhDc", username)
             return $http.post('/sessions', {
                 username: username,
-                password: password
+                password: password,
+                email: email,
             }).then(function(response) {
+                console.log("DDc")
                 svc.token = response.data
                 svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data
@@ -24,7 +29,7 @@ angular.module('app')
                 username: username,
                 password: password,
                 firstname: firstname,
-                lastname: lastname
+                lastname: lastname,
             }).then(function(response) {
                 return response
             })

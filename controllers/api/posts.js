@@ -12,8 +12,12 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/', function(req, res, next) {
+    console.log("posts.js:", req.body)
+    console.log("posts.js  req.auth:",  req.auth)
     var post = new Post({ body: req.body.body })
     post.username = req.auth.username
+    post.email = req.auth.email
+    post.userID = req.auth.id
     post.save(function(err, post) {
         if (err) { return next(err) }
         websockets.broadcast('new_post', post)
