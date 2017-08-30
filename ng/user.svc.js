@@ -5,14 +5,13 @@ angular.module('app')
             console.log("UserSvc:getUser")
             return $http.get('/users')
                 .then(function(response) {
+                     console.log("UserSvc:getUser:",response.data)
                     return response.data
                 })
         }
-        svc.login = function(email, username, password) {
+        svc.login = function(email, password) {
              console.log("DDc", email)
-             console.log("DhDc", username)
             return $http.post('/sessions', {
-                username: username,
                 password: password,
                 email: email,
             }).then(function(response) {

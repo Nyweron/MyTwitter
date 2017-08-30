@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
     var auth = jwt.decode(req.headers['x-auth'], config.secret)
      console.log("auth:",auth)
-    User.findOne({ email: auth.email }, function(err, user) {
+    User.findOne({ username: auth.username }, function(err, user) {
         if (err) { return next(err) }
 
         console.log("user:",user)
@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/', function(req, res, next) {
+    console.log("users.js req.body:"+req.body)
     var user = new User({ 
         username: req.body.username,
         firstname: req.body.firstname,
