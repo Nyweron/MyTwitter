@@ -1,11 +1,49 @@
-<form ng-submit="login(email, password)">
-    <div class="form-group">
-        <label>Email</label>
-        <input class="form-control" type="email" ng-model="email">
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input class="form-control" type="password" ng-model="password">
-    </div>
-    <input class="btn btn-success btn-lg btn-block" type="submit" value="Zaloguj">
-</form>
+<div class="container">
+    <form class="well form-horizontal" ng-submit='login(email, password)' action=" " method="post" id="contact_form">
+        <fieldset>
+
+            <legend>Login</legend>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">E-Mail</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input class="form-control" type="email" ng-model="email" placeholder="email" id="email" name="email">
+                    </div>
+                    <b style="color:red;">{{emailRequired}}</b>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Password</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input class="form-control" type="password" ng-model="password" placeholder="password" id="password" name="password">
+                    </div>
+                    <b style="color:red;">{{passwordRequired}}</b>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div ng-if='loginResponse' class="alert alert-danger ">
+                        <div class="input-group">
+                            <strong>Error!</strong>
+                            <strong ng-click='disableLoginResponse()' class="alert-link ">{{loginResponse}} </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <input class="btn btn-success btn-lg btn-block" id="submitLogIn" type="submit" value="Zaloguj">
+                </div>
+            </div>
+
+        </fieldset>
+    </form>

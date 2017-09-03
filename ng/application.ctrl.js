@@ -10,6 +10,9 @@ angular.module('app')
         $scope.disableRegisterResponse = function() {
             $scope.registerResponse = null
         }
+        $scope.disableLoginResponse = function() {
+            $scope.loginResponse = null
+        }
         $scope.logout = function() {
             $scope.currentUser = null
             UserSvc.logout()

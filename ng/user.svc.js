@@ -15,12 +15,13 @@ angular.module('app')
                 password: password,
                 email: email,
             }).then(function(response) {
-                console.log("DDc")
+                console.log("DDc5")
                 svc.token = response.data
                 svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data
                 return svc.getUser()
             })
+           
         }
         svc.register = function(email, username, password, firstname, lastname) {
             return $http.post('/users', {

@@ -1,6 +1,6 @@
 angular.module('app')
     .controller('RegisterCtrl', function($scope, UserSvc) {
-        var ctrl = this
+        let ctrl = this
         $scope.register = function(email, username, password, firstname, lastname) {
 
             $scope.usernameRequired = ''
