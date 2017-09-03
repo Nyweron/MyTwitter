@@ -1,14 +1,14 @@
 app.controller('PostsCtrl', function($scope, PostsSvc) {
     $scope.addPost = function() {
-        console.log("ttt")
+       /* console.log("ttt")*/
         if ($scope.postBody) {
-              console.log("ttt2")
+             /* console.log("ttt2")*/
             PostsSvc.create({
               //  email: 'aaa@aa.aa',
                 username: 'nyweron',
                 body: $scope.postBody
             }).success(function(post) {
-                console.log("DFDF")
+               /* console.log("DFDF")*/
                 $scope.postBody = null
             })
         }

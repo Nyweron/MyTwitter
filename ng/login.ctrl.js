@@ -3,35 +3,59 @@ angular.module('app')
         let ctrl = this
 
         $scope.login = function(email, password) {
-            console.log("Login")
-            UserSvc.login(email, password)
-                .then(function(user) {
-                    console.log("login.ctrl:",user)
-                    $scope.$emit('login', user)
-                    $location.path('/')
-                },
-                function(err) {
-                    console.log("login.ctrl.err:",err.status)
-                    $scope.loginResponse = ' Invalid email or password'
-                })
-                 console.log("Login2")
-        }
 
-        ctrl.loginValidationEmail = function(email) {
-            let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                ctrl.email = ctrl.loginValidationEmail(email)
+                ctrl.pass = ctrl.loginValidationPassword(password)
 
-            if (email != undefined) {
-                if (email.match(mailformat) != null) {
-                    $scope.emailRequired = ''
-                    return true
+                if (ctrl.pass && ctrl.email) {
+                    UserSvc.login(email, password)
+                        .then(function(user) {
+                                $scope.emailRequired = ''
+                                $scope.passwordRequired = ''
+                                $scope.loginResponse = null
+                                $scope.$emit('login', user)
+                                $location.path('/')
+                            },
+                            function(err) {
+                                $scope.loginResponse = ' Invalid email or password. Check once again and try it again.'
+                            })
+                }
+            },
+
+            ctrl.loginValidationEmail = function(email) {
+                let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+                if (email != undefined) {
+                    if (email.match(mailformat) != null) {
+                        $scope.emailRequired = ''
+                        return true
+                    } else {
+                        $scope.emailRequired = 'Invalid email format'
+                        $scope.loginResponse = null
+                        return false
+                    }
                 } else {
-                    $scope.emailRequired = 'Invalid email format'
+                    $scope.emailRequired = 'Email required'
+                    $scope.loginResponse = null
                     return false
                 }
-            } else {
-                $scope.emailRequired = 'Email required'
-                return false
+            },
+
+            ctrl.loginValidationPassword = function(password) {
+                if (password != undefined) {
+                    if (password.length < 3) {
+                        $scope.passwordRequired = 'Password require 3 letters'
+                        $scope.loginResponse = null
+                        return false
+                    } else {
+                        $scope.passwordRequired = ''
+                        return true
+                    }
+                } else {
+                    $scope.passwordRequired = 'Password Required'
+                    $scope.loginResponse = null
+                    return false
+                }
             }
-        }
 
     })

@@ -1,7 +1,7 @@
 angular.module('app')
     .controller('ApplicationCtrl', function($scope, UserSvc, $location) {
         $scope.$on('login', function(_, user) {
-            console.log("application.ctrl:",user)
+            /*console.log("application.ctrl:",user)*/
             $scope.currentUser = user
         })
         $scope.$on('register', function(_, response) {
@@ -9,9 +9,6 @@ angular.module('app')
         })
         $scope.disableRegisterResponse = function() {
             $scope.registerResponse = null
-        }
-        $scope.disableLoginResponse = function() {
-            $scope.loginResponse = null
         }
         $scope.logout = function() {
             $scope.currentUser = null

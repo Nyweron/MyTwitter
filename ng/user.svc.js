@@ -3,19 +3,19 @@ angular.module('app')
         let svc = this
         
         svc.getUser = function() {
-            console.log("UserSvc:getUser")
+           /* console.log("UserSvc:getUser")*/
             return $http.get('/users')
                 .then(function(response) {
                     return response.data
                 })
         }
         svc.login = function(email, password) {
-             console.log("DDc", email)
+            /* console.log("DDc", email)*/
             return $http.post('/sessions', {
                 password: password,
                 email: email,
             }).then(function(response) {
-                console.log("DDc5")
+               /* console.log("DDc5")*/
                 svc.token = response.data
                 svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data

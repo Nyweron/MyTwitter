@@ -23,6 +23,7 @@ angular.module('app')
                                 $scope.firstname = ""
                                 $scope.lastname = ""
                                 $scope.emailRequired = ''
+                                $scope.passwordRequired = ''
 
                             })
                     } else {
@@ -31,7 +32,7 @@ angular.module('app')
                     }
                 })
             }
-        }
+        },
 
         ctrl.registerValidationEmail = function(email) {
             let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -48,7 +49,7 @@ angular.module('app')
                 $scope.emailRequired = 'Email required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationUsername = function(username) {
             if (username != undefined) {
@@ -63,7 +64,7 @@ angular.module('app')
                 $scope.usernameRequired = 'Username Required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationFirstname = function(firstname) {
             if (firstname != undefined) {
@@ -78,7 +79,7 @@ angular.module('app')
                 $scope.firstnameRequired = 'First name Required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationPassword = function(password) {
             if (password != undefined) {

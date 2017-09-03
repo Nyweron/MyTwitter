@@ -4,7 +4,7 @@ var app = angular.module('app', [
 angular.module('app')
     .controller('ApplicationCtrl', function($scope, UserSvc, $location) {
         $scope.$on('login', function(_, user) {
-            console.log("application.ctrl:",user)
+            /*console.log("application.ctrl:",user)*/
             $scope.currentUser = user
         })
         $scope.$on('register', function(_, response) {
@@ -12,9 +12,6 @@ angular.module('app')
         })
         $scope.disableRegisterResponse = function() {
             $scope.registerResponse = null
-        }
-        $scope.disableLoginResponse = function() {
-            $scope.loginResponse = null
         }
         $scope.logout = function() {
             $scope.currentUser = null
@@ -35,49 +32,73 @@ angular.module('app')
         let ctrl = this
 
         $scope.login = function(email, password) {
-            console.log("Login")
-            UserSvc.login(email, password)
-                .then(function(user) {
-                    console.log("login.ctrl:",user)
-                    $scope.$emit('login', user)
-                    $location.path('/')
-                },
-                function(err) {
-                    console.log("login.ctrl.err:",err.status)
-                    $scope.loginResponse = ' Invalid email or password'
-                })
-                 console.log("Login2")
-        }
 
-        ctrl.loginValidationEmail = function(email) {
-            let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                ctrl.email = ctrl.loginValidationEmail(email)
+                ctrl.pass = ctrl.loginValidationPassword(password)
 
-            if (email != undefined) {
-                if (email.match(mailformat) != null) {
-                    $scope.emailRequired = ''
-                    return true
+                if (ctrl.pass && ctrl.email) {
+                    UserSvc.login(email, password)
+                        .then(function(user) {
+                                $scope.emailRequired = ''
+                                $scope.passwordRequired = ''
+                                $scope.loginResponse = null
+                                $scope.$emit('login', user)
+                                $location.path('/')
+                            },
+                            function(err) {
+                                $scope.loginResponse = ' Invalid email or password. Check once again and try it again.'
+                            })
+                }
+            },
+
+            ctrl.loginValidationEmail = function(email) {
+                let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+                if (email != undefined) {
+                    if (email.match(mailformat) != null) {
+                        $scope.emailRequired = ''
+                        return true
+                    } else {
+                        $scope.emailRequired = 'Invalid email format'
+                        $scope.loginResponse = null
+                        return false
+                    }
                 } else {
-                    $scope.emailRequired = 'Invalid email format'
+                    $scope.emailRequired = 'Email required'
+                    $scope.loginResponse = null
                     return false
                 }
-            } else {
-                $scope.emailRequired = 'Email required'
-                return false
+            },
+
+            ctrl.loginValidationPassword = function(password) {
+                if (password != undefined) {
+                    if (password.length < 3) {
+                        $scope.passwordRequired = 'Password require 3 letters'
+                        $scope.loginResponse = null
+                        return false
+                    } else {
+                        $scope.passwordRequired = ''
+                        return true
+                    }
+                } else {
+                    $scope.passwordRequired = 'Password Required'
+                    $scope.loginResponse = null
+                    return false
+                }
             }
-        }
 
     })
 app.controller('PostsCtrl', function($scope, PostsSvc) {
     $scope.addPost = function() {
-        console.log("ttt")
+       /* console.log("ttt")*/
         if ($scope.postBody) {
-              console.log("ttt2")
+             /* console.log("ttt2")*/
             PostsSvc.create({
               //  email: 'aaa@aa.aa',
                 username: 'nyweron',
                 body: $scope.postBody
             }).success(function(post) {
-                console.log("DFDF")
+               /* console.log("DFDF")*/
                 $scope.postBody = null
             })
         }
@@ -127,6 +148,7 @@ angular.module('app')
                                 $scope.firstname = ""
                                 $scope.lastname = ""
                                 $scope.emailRequired = ''
+                                $scope.passwordRequired = ''
 
                             })
                     } else {
@@ -135,7 +157,7 @@ angular.module('app')
                     }
                 })
             }
-        }
+        },
 
         ctrl.registerValidationEmail = function(email) {
             let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -152,7 +174,7 @@ angular.module('app')
                 $scope.emailRequired = 'Email required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationUsername = function(username) {
             if (username != undefined) {
@@ -167,7 +189,7 @@ angular.module('app')
                 $scope.usernameRequired = 'Username Required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationFirstname = function(firstname) {
             if (firstname != undefined) {
@@ -182,7 +204,7 @@ angular.module('app')
                 $scope.firstnameRequired = 'First name Required'
                 return false
             }
-        }
+        },
 
         ctrl.registerValidationPassword = function(password) {
             if (password != undefined) {
@@ -213,19 +235,19 @@ angular.module('app')
         let svc = this
         
         svc.getUser = function() {
-            console.log("UserSvc:getUser")
+           /* console.log("UserSvc:getUser")*/
             return $http.get('/users')
                 .then(function(response) {
                     return response.data
                 })
         }
         svc.login = function(email, password) {
-             console.log("DDc", email)
+            /* console.log("DDc", email)*/
             return $http.post('/sessions', {
                 password: password,
                 email: email,
             }).then(function(response) {
-                console.log("DDc5")
+               /* console.log("DDc5")*/
                 svc.token = response.data
                 svc.setToken(svc.token)
                 $http.defaults.headers.common['X-Auth'] = response.data
