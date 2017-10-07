@@ -90,17 +90,20 @@ angular.module('app')
     })
 app.controller('PostsCtrl', function($scope, PostsSvc) {
     $scope.addPost = function() {
-       /* console.log("ttt")*/
-        if ($scope.postBody) {
-             /* console.log("ttt2")*/
+        if ($scope.postBody && $scope.currentUser) {
+            $scope.youAreNotLogged = ""
             PostsSvc.create({
-              //  email: 'aaa@aa.aa',
-                username: 'nyweron',
+                username: '',
                 body: $scope.postBody
             }).success(function(post) {
-               /* console.log("DFDF")*/
                 $scope.postBody = null
             })
+        } else{
+            if(!$scope.currentUser){
+                $scope.youAreNotLogged = "You can't add post, you are not logged."
+            } else if($scope.currentUser && !$scope.postBody){
+                $scope.youAreNotLogged = "You have to write a msg."
+            }
         }
     }
 
@@ -120,6 +123,7 @@ app.service('PostsSvc', ['$http', function($http) {
         return $http.get('/posts')
     }
     this.create = function(post) {
+        console.log(post)
         return $http.post('/posts', post)
     }
 }])
