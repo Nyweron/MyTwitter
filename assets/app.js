@@ -126,6 +126,9 @@ app.service('PostsSvc', ['$http', function($http) {
         return $http.post('/posts', post)
     }
 }])
+angular.module('app').controller('ProfileCtrl', function($scope, UserSvc) {
+     console.log("ProfileCtrl")    
+})
 angular.module('app')
     .controller('RegisterCtrl', function($scope, UserSvc) {
         let ctrl = this
@@ -232,6 +235,20 @@ angular.module('app')
             .when('/register', { controller: 'RegisterCtrl', templateUrl: 'register.html' })
             .when('/login', { controller: 'LoginCtrl', templateUrl: 'login.html' })
             .when('/logout', { controller: 'ApplicationCtrl', templateUrl: 'posts.html' })
+            .when('/profile', 
+            {
+                controller: 'ProfileCtrl',
+                templateUrl: 'profile.html',
+                resolve:{
+                    "check":function(UserSvc, $location){  
+                        //if user is logged then he has access to profile
+                        if (!UserSvc.isSessionActive()) {
+                           $location.path('/');
+                        }
+                    }
+                }
+            })
+            .otherwise({ redirectTo: '/' })
     })
 angular.module('app')
     .service('UserSvc', function($http, $window) {
@@ -285,7 +302,6 @@ angular.module('app')
         svc.setXAuth = function() {
             return $http.defaults.headers.common['X-Auth'] = svc.getToken()
         }
-
         svc.emailIsExist = function(email){
             return $http.post('/users/checkEmail', {email:email})
                 .then(function(response) {

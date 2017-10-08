@@ -50,7 +50,6 @@ angular.module('app')
         svc.setXAuth = function() {
             return $http.defaults.headers.common['X-Auth'] = svc.getToken()
         }
-
         svc.emailIsExist = function(email){
             return $http.post('/users/checkEmail', {email:email})
                 .then(function(response) {

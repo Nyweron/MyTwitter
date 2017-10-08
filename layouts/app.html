@@ -4,30 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
-
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-
     <link rel="stylesheet" href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
     <link rel="stylesheet" href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
-
-
     <link rel="stylesheet" href='/app.css'>
-
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <body ng-app="app" ng-controller="ApplicationCtrl">
-
     <nav class="navbar navbar-default">
         <div class="container">
             <ul class="nav navbar-nav">
                 <li><a class="post" href="/#/">Posty</a></li>
-                <li ng-if='currentUser'>
-                    <a class="logout" ng-click='logout()'>Wyloguj</a>
-                </li>
+                <ul ng-if='currentUser' class='nav navbar-nav navbar-right'>
+                    <li><a class="logout" ng-click='logout()'>Wyloguj</a></li>
+                    <li><a class="profile" href="/#/profile">Profile</a></li>
+                </ul>
                 <ul ng-if='!currentUser' class='nav navbar-nav navbar-right'>
                     <li><a class="register" href="/#/register">Rejestracja</a></li>
                     <li><a class="login" href="/#/login">Logowanie</a></li>
@@ -43,18 +35,14 @@
     <div ng-view></div>
 
 
-    <!--<script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js" type="text/javascript"></script>
 
-
-
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular-route.js'></script>
     <script src='/app.js'></script>
-
 
 </body>
 
